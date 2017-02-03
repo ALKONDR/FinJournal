@@ -14,8 +14,8 @@ namespace blogAPI.Controllers
             //TODO: MongoDB
 
             List<User> allPosts = new List<User>();
-            allPosts.Add(new User("login1", "email1"));
-            allPosts.Add(new User("login2", "email2"));
+            allPosts.Add(new User());
+            allPosts.Add(new User());
 
             return new JsonResult(allPosts);
         }

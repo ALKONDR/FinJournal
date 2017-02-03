@@ -1,48 +1,110 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
 using MongoDB.Driver;
+using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 using blogAPI.Models;
+using blogAPI.Interfaces;
 
 namespace blogAPI.Data
 {
+    /// <summary>
+    /// class for easier work with MongoDB
+    /// </summary>
     public class UserRepository : IUserRepository
     {
-        private readonly IMongoDatabase _database;
-        private readonly IMongoDatabase _settings;
-        public UserRepository()
+        /// <summary>
+        /// Our MongoDB Context to work
+        /// </summary>
+        private readonly UserContext _context = null;
+        public UserRepository(IOptions<Settings> settings)
         {
-            _database = Connect();
+            _context = new UserContext(settings);
         }
-        void IUserRepository.Add(User user)
+        /// <summary>
+        /// adds user to MongoDB
+        /// </summary>
+        /// <param name="user">User to add</param>
+        public async Task AddUser(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _context.Users.InsertOneAsync(user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: Adding user \n {e.Message}");
+            }
         }
+        /// <summary>
+        /// return all Users from MongoDB
+        /// </summary>
+        /// <returns>List of all Users or null</returns>
+        public async Task<IEnumerable<User>> AllUsersAsync()
+        {
+            try
+            {
+                return await _context.Users.Find(_ => true).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: Getting all users \n {e.Message}");
+            }
+            return null;
+        }
+        /// <summary>
+        /// returns user by given id
+        /// </summary>
+        /// <param name="id">user id to get</param>
+        /// <returns>user or null</returns>
+        public async Task<User> GetUserByIdAsync(string id)
+        {
+            var filter = Builders<User>.Filter.Eq("Id", id);
 
-        IEnumerable<User> IUserRepository.AllUsers()
-        {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Users.Find(filter).FirstOrDefaultAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: Getting user by id \n {e.Message}");
+            }
+            return null;
         }
-
-        User IUserRepository.GetUserById(ObjectId id)
+        /// <summary>
+        /// removes user by given id
+        /// </summary>
+        /// <param name="id">user id to remove</param>
+        /// <returns>DeleteResult</returns>
+        public async Task<DeleteResult> RemoveUser(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Users.DeleteOneAsync(u => u.Id == id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: Removing user by id \n {e.Message}");
+            }
+            return null;
         }
-
-        void IUserRepository.Remove(ObjectId id)
+        /// <summary>
+        /// updates given user
+        /// </summary>
+        /// <param name="user">user to update</param>
+        /// <returns>ReplaceOneResult</returns>
+        public async Task<ReplaceOneResult> UpdateUser(User user)
         {
-            throw new NotImplementedException();
-        }
-
-        void IUserRepository.Update(User user)
-        {
-            throw new NotImplementedException();
-        }
-
-        private IMongoDatabase Connect()
-        {
-            //TODO: create MongoDB connection
+            try
+            {
+                return await _context.Users.ReplaceOneAsync(u => u.Id.Equals(user.Id), user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: Updating user \n {e.Message}");
+            }
+            return null;
         }
     }
 }
