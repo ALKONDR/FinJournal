@@ -41,7 +41,7 @@ namespace blogAPI.Data
         /// return all Users from MongoDB
         /// </summary>
         /// <returns>List of all Users or null</returns>
-        public async Task<IEnumerable<User>> AllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
             try
             {
@@ -51,6 +51,10 @@ namespace blogAPI.Data
             {
                 Console.WriteLine($"ERROR: Getting all users \n {e.Message}");
             }
+
+            if (_context == null)
+                Console.WriteLine("No users in repository");
+            
             return null;
         }
         /// <summary>
@@ -58,7 +62,7 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="id">user id to get</param>
         /// <returns>user or null</returns>
-        public async Task<User> GetUserByIdAsync(string id)
+        public async Task<User> GetUserById(string id)
         {
             var filter = Builders<User>.Filter.Eq("Id", id);
 
@@ -70,6 +74,7 @@ namespace blogAPI.Data
             {
                 Console.WriteLine($"ERROR: Getting user by id \n {e.Message}");
             }
+
             return null;
         }
         /// <summary>
@@ -77,7 +82,7 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="id">user id to remove</param>
         /// <returns>DeleteResult</returns>
-        public async Task<DeleteResult> RemoveUser(string id)
+        public async Task<DeleteResult> RemoveUserById(string id)
         {
             try
             {
@@ -87,6 +92,7 @@ namespace blogAPI.Data
             {
                 Console.WriteLine($"ERROR: Removing user by id \n {e.Message}");
             }
+
             return null;
         }
         /// <summary>
@@ -104,6 +110,7 @@ namespace blogAPI.Data
             {
                 Console.WriteLine($"ERROR: Updating user \n {e.Message}");
             }
+            
             return null;
         }
     }

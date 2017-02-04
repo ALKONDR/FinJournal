@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 using blogAPI.Models;
 using blogAPI.Data;
+using blogAPI.Interfaces;
 
 namespace blogAPI
 {

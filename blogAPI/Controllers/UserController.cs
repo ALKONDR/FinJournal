@@ -1,23 +1,48 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
+using System.Net;
 
 using blogAPI.Models;
+using blogAPI.Interfaces;
 
+//TODO: remove all bugs and just make it work ;D
 namespace blogAPI.Controllers
 {
+    [Produces("application/json")]
     [Route("api/users")]
     public class UserController : Controller
     {
-        [HttpGet()]
-        public JsonResult GetAllUsers()
+        private readonly IUserRepository _userRepository;
+        public UserController(IUserRepository userRepository)
         {
-            //TODO: MongoDB
+            _userRepository = userRepository;
+        }
 
-            List<User> allPosts = new List<User>();
-            allPosts.Add(new User());
-            allPosts.Add(new User());
+        [HttpGet("all")]
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userRepository.GetAllUsers();
+        }
 
-            return new JsonResult(allPosts);
+        [HttpGet("{id}")]
+        public async Task<User> GetUserById(string id)
+        {
+            return await _userRepository.GetUserById(id);
+        }
+
+        [HttpPost("AddUser")]
+        public IActionResult AddUser(User user)
+        {
+            try
+            {
+                return Ok(_userRepository.AddUser(user));
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int) HttpStatusCode.InternalServerError);
+            }
         }
     }
 }
