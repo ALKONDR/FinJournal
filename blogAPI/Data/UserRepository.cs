@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 using blogAPI.Models;
 using blogAPI.Interfaces;
@@ -18,6 +19,7 @@ namespace blogAPI.Data
         /// Our MongoDB Context to work
         /// </summary>
         private readonly UserContext _context = null;
+        private readonly ILogger _logger;
         public UserRepository(IOptions<Settings> settings)
         {
             _context = new UserContext(settings);
@@ -34,7 +36,7 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERROR: Adding user \n {e.Message}");
+                _logger.LogError($"Adding user \n {e.Message}");
             }
         }
         /// <summary>
@@ -49,11 +51,11 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERROR: Getting all users \n {e.Message}");
+                _logger.LogError($"Getting all users \n {e.Message}");
             }
 
             if (_context == null)
-                Console.WriteLine("No users in repository");
+                _logger.LogInformation("No users in repository");
             
             return null;
         }
@@ -72,7 +74,7 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERROR: Getting user by id \n {e.Message}");
+                _logger.LogError($"Getting user by id \n {e.Message}");
             }
 
             return null;
@@ -90,7 +92,7 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERROR: Removing user by id \n {e.Message}");
+                _logger.LogError($"Removing user by id \n {e.Message}");
             }
 
             return null;
@@ -108,7 +110,7 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                Console.WriteLine($"ERROR: Updating user \n {e.Message}");
+                _logger.LogError($"Updating user \n {e.Message}");
             }
             
             return null;

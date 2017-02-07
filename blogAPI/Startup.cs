@@ -16,14 +16,14 @@ namespace blogAPI
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("application.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            Configuration = builder.Build();
+            _config = builder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; set; }
+        IConfigurationRoot _config { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -31,19 +31,24 @@ namespace blogAPI
         {
             services.AddMvc();
 
+            services.AddSingleton(_config);
+
             services.Configure<Settings>(options =>
             {
-                options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-                options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = _config.GetSection("MongoConnection:Database").Value;
             });
 
+            services.AddLogging();
+            
             services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(_config.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             app.UseMvc();
         }

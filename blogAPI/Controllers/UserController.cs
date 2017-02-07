@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using System.Net;
+using Microsoft.Extensions.Logging;
 
 using blogAPI.Models;
 using blogAPI.Interfaces;
+
 
 //TODO: remove all bugs and just make it work ;D
 namespace blogAPI.Controllers
@@ -15,14 +17,17 @@ namespace blogAPI.Controllers
     public class UserController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly ILogger _logger;
+        public UserController(IUserRepository userRepository, ILogger<UserController> logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         [HttpGet("all")]
         public async Task<IEnumerable<User>> GetAllUsers()
         {
+            _logger.LogInformation("Returing all users");
             return await _userRepository.GetAllUsers();
         }
 
