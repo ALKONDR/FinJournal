@@ -9,6 +9,13 @@ namespace blogAPI.Models
         public string Id { get; set; }
         public string Login { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
-        public List<Post> Posts { get; set; } = null;
+        public List<Story> Stories { get; set; } = null;
+        public string AccountDescription { get; set; } = string.Empty;
+        public List<User> Followers { get; set; } = null;
+        public List<User> Following { get; set; } = null;
+        public List<Story> Recommendations { get; set; } = null;
+        public List<Comment> Responses { get; set; } = null;
+        public List<Story> Bookmarks { get; set; } = null;
+        public List<Tag> Tags { get; set; } = null;
     }
 }
