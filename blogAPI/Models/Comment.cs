@@ -8,7 +8,7 @@ namespace blogAPI.Models
         public DateTime Date { get; set; }
         public User Author { get; set; }
         public string Content { get; set; }
-        public List<Like> Likes { get; set; }
-        public List<Dislike> Dislikes { get; set; }
+        public List<Opinion> Likes { get; set; }
+        public List<Opinion> Dislikes { get; set; }
     }
 }

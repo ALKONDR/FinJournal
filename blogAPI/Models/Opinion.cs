@@ -2,9 +2,9 @@ using System;
 
 namespace blogAPI.Models
 {
-    public class Like
+    public class Opinion
     {
         DateTime Date { get; set; }
-        string Content { get; set; }
+        User Author { get; set; }
     }
 }

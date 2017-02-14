@@ -10,7 +10,7 @@ namespace blogAPI.Interfaces
         DateTime Date { get; set; }
         User Author { get; set; }
         string Content { get; set; }
-        List<Like> Likes { get; set; }
-        List<Dislike> Dislikes { get; set; }
+        List<Opinion> Likes { get; set; }
+        List<Opinion> Dislikes { get; set; }
     }
 }
