@@ -8,10 +8,10 @@ namespace blogAPI.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAllUsers();
-        Task<User> GetUserById(string id);
-        Task AddUser(User user);
-        Task<ReplaceOneResult> UpdateUser(User user);
-        Task<DeleteResult> RemoveUserById(string id);
+        Task<IEnumerable<User>> GetAllUsersAsync();
+        Task<User> GetUserByIdAsync(string id);
+        Task AddUserAsync(User user);
+        Task<ReplaceOneResult> UpdateUserAsync(User user);
+        Task<DeleteResult> RemoveUserByIdAsync(string id);
     }
 }

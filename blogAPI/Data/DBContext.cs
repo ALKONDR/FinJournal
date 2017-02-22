@@ -5,14 +5,14 @@ using blogAPI.Models;
 
 namespace blogAPI.Data
 {
-    public class UserContext
+    public class DBContext
     {
         private readonly IMongoDatabase _database = null; 
         /// <summary>
         /// creates MongoDB Client
         /// </summary>
         /// <param name="settings">settings for MongoDB Client</param>
-        public UserContext(IOptions<Settings> settings)
+        public DBContext(IOptions<Settings> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)

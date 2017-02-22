@@ -6,7 +6,7 @@ using blogAPI.Models;
 namespace blogAPI.Controllers
 {
     [Route("api/posts")]
-    public class StoryController : Controller
+    public class StoriesController : Controller
     {
         
     }

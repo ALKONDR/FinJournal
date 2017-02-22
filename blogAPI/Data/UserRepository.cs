@@ -18,17 +18,17 @@ namespace blogAPI.Data
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
-        private readonly UserContext _context = null;
+        private readonly DBContext _context = null;
         private readonly ILogger _logger;
         public UserRepository(IOptions<Settings> settings)
         {
-            _context = new UserContext(settings);
+            _context = new DBContext(settings);
         }
         /// <summary>
         /// adds user to MongoDB
         /// </summary>
         /// <param name="user">User to add</param>
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace blogAPI.Data
         /// return all Users from MongoDB
         /// </summary>
         /// <returns>List of all Users or null</returns>
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="id">user id to get</param>
         /// <returns>user or null</returns>
-        public async Task<User> GetUserById(string id)
+        public async Task<User> GetUserByIdAsync(string id)
         {
             var filter = Builders<User>.Filter.Eq("Id", id);
 
@@ -84,7 +84,7 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="id">user id to remove</param>
         /// <returns>DeleteResult</returns>
-        public async Task<DeleteResult> RemoveUserById(string id)
+        public async Task<DeleteResult> RemoveUserByIdAsync(string id)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="user">user to update</param>
         /// <returns>ReplaceOneResult</returns>
-        public async Task<ReplaceOneResult> UpdateUser(User user)
+        public async Task<ReplaceOneResult> UpdateUserAsync(User user)
         {
             try
             {

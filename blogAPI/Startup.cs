@@ -29,19 +29,19 @@ namespace blogAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
             services.AddSingleton(_config);
 
-            services.Configure<Settings>(options =>
-            {
-                options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
-                options.Database = _config.GetSection("MongoConnection:Database").Value;
-            });
+            // services.Configure<Settings>(options =>
+            // {
+            //     options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
+            //     options.Database = _config.GetSection("MongoConnection:Database").Value;
+            // });
 
-            services.AddLogging();
+            // services.AddLogging();
             
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddMvc();
+            
+            // services.AddTransient<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
