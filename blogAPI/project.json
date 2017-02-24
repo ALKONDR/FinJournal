@@ -6,6 +6,7 @@
     },
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
+    "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
     "Microsoft.Extensions.Logging": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
@@ -14,6 +15,7 @@
     "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.Extensions.Configuration.CommandLine": "1.1.0",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.0.2",
     "MongoDB.Driver": "2.4.1",
     "MongoDB.Bson": "2.4.1",
@@ -47,6 +49,7 @@
   "publishOptions": {
     "include": [
       "wwwroot",
+      "appsettings.json",
       "web.config"
     ]
   },

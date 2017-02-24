@@ -20,6 +20,7 @@ namespace blogAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            _logger.LogInformation("this is shit from user controller");
             return Ok(new string[] {"value1", "value2222"});
         }
     }

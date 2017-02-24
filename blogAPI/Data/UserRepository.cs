@@ -20,9 +20,10 @@ namespace blogAPI.Data
         /// </summary>
         private readonly DBContext _context = null;
         private readonly ILogger _logger;
-        public UserRepository(IOptions<Settings> settings)
+        public UserRepository(IOptions<Settings> settings, ILogger<UserRepository> logger)
         {
             _context = new DBContext(settings);
+            _logger = logger;
         }
         /// <summary>
         /// adds user to MongoDB

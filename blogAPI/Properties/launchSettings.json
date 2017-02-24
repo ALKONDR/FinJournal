@@ -1,4 +1,12 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:1479/",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "blogAPI": {
       "commandName": "Project",
