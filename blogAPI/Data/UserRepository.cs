@@ -18,7 +18,7 @@ namespace blogAPI.Data
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
-        private readonly DBContext _context = null;
+        private readonly DBContext _context;
         private readonly ILogger _logger;
         public UserRepository(IOptions<Settings> settings, ILogger<UserRepository> logger)
         {
@@ -55,7 +55,7 @@ namespace blogAPI.Data
                 _logger.LogError($"Getting all users \n {e.Message}");
             }
 
-            if (_context == null)
+            if (_context.Users == null)
                 _logger.LogInformation("No users in repository");
             
             return null;

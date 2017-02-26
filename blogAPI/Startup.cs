@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using blogAPI.Models;
 
 namespace blogAPI
 {
@@ -28,6 +26,12 @@ namespace blogAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_config);
+
+            services.Configure<Settings>(options =>
+            {
+                options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
+                options.Database = _config.GetSection("MongoConnection:Database").Value;
+            });
             
             // Add framework services.
             services.AddMvc();

@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 using blogAPI.Models;
 using blogAPI.Interfaces;
@@ -20,8 +22,21 @@ namespace blogAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            _logger.LogInformation("this is shit from user controller");
             return Ok(new string[] {"value1", "value2222"});
+        }
+        [HttpPost]
+        public IActionResult Post([FromBody]User user)
+        {
+            try
+            {
+                _logger.LogInformation($"Trying to post user \n {JsonConvert.SerializeObject(user)}");
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while posting user {e.Message}");
+            }
+            return BadRequest();
         }
     }
 }
