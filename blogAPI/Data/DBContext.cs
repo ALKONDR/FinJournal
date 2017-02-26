@@ -18,14 +18,25 @@ namespace blogAPI.Data
             _database = client.GetDatabase(settings.Value.Database);
         }
         /// <summary>
-        /// method to get collection for users
+        /// property to get collection of users
         /// </summary>
-        /// <returns>MongoDB Collection for Users</returns>
+        /// <returns>MongoDB Collection of Users</returns>
         public IMongoCollection<User> Users
         {
             get
             {
                 return _database.GetCollection<User>("Users");
+            }
+        }
+        /// <summary>
+        /// property to get collection of all tags
+        /// </summary>
+        /// <returns>MongoDB Collection of all tags</returns>
+        public IMongoCollection<Models.Tag> Tags
+        {
+            get
+            {
+                return _database.GetCollection<Models.Tag>("Tags");
             }
         }
     }

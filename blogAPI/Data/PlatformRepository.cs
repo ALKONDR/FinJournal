@@ -13,14 +13,14 @@ namespace blogAPI.Data
     /// <summary>
     /// class for easier work with MongoDB
     /// </summary>
-    public class UserRepository : IUserRepository
+    public class PlatformRepository : IPlatformRepository
     {
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
         private readonly DBContext _context;
         private readonly ILogger _logger;
-        public UserRepository(IOptions<Settings> settings, ILogger<UserRepository> logger)
+        public PlatformRepository(IOptions<Settings> settings, ILogger<PlatformRepository> logger)
         {
             _context = new DBContext(settings);
             _logger = logger;
