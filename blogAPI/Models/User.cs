@@ -7,7 +7,7 @@ namespace blogAPI.Models
     {
         [BsonId]
         public string Id { get; set; }
-        public string Login { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public List<Story> Stories { get; set; } = null;
         public string AccountDescription { get; set; } = string.Empty;
@@ -17,12 +17,5 @@ namespace blogAPI.Models
         public List<Comment> Responses { get; set; } = null;
         public List<Story> Bookmarks { get; set; } = null;
         public List<Tag> Tags { get; set; } = null;
-
-        public User(string login, string email, string AccountDescription)
-        {
-            this.AccountDescription = AccountDescription;
-            this.Login = login;
-            this.Email = email;
-        }
     }
 }

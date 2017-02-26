@@ -15,8 +15,7 @@ namespace blogAPI.Data
         public DBContext(IOptions<Settings> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
-            if (client != null)
-                _database = client.GetDatabase(settings.Value.Database);
+            _database = client.GetDatabase(settings.Value.Database);
         }
         /// <summary>
         /// method to get collection for users

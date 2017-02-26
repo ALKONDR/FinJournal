@@ -32,6 +32,8 @@ namespace blogAPI
                 options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = _config.GetSection("MongoConnection:Database").Value;
             });
+
+            
             
             // Add framework services.
             services.AddMvc();
