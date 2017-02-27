@@ -10,7 +10,7 @@ namespace blogAPI.Interfaces
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(string id);
-        Task AddUserAsync(User user);
+        Task<bool> AddUserAsync(User user);
         Task<ReplaceOneResult> UpdateUserAsync(User user);
         Task<DeleteResult> RemoveUserByIdAsync(string id);
     }

@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using blogAPI.Models;
+using blogAPI.Data;
+using blogAPI.Interfaces;
 
 namespace blogAPI
 {
@@ -33,7 +35,9 @@ namespace blogAPI
                 options.Database = _config.GetSection("MongoConnection:Database").Value;
             });
 
-            
+            services.AddLogging();
+
+            services.AddSingleton<PlatformRepository>();
             
             // Add framework services.
             services.AddMvc();

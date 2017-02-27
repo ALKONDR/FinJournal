@@ -2,21 +2,23 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 using blogAPI.Models;
 using blogAPI.Interfaces;
-using Microsoft.Extensions.Logging;
+using blogAPI.Data;
 
 namespace blogAPI.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        // private readonly IUserRepository _userRepository;
+        private readonly PlatformRepository _platformRepository;
         private readonly ILogger _logger;
-        public UsersController( ILogger<UsersController> logger)
+        public UsersController(ILogger<UsersController> logger, PlatformRepository platformRepository)
         {
-            // _userRepository = userRepository;
+            _platformRepository = platformRepository;
             _logger = logger;
         }
         [HttpGet]
@@ -25,12 +27,13 @@ namespace blogAPI.Controllers
             return Ok(new string[] {"value1", "value2222"});
         }
         [HttpPost]
-        public IActionResult Post([FromBody]User user)
+        public async Task<IActionResult> Post([FromBody]User user)
         {
             try
             {
                 _logger.LogInformation($"Trying to post user \n {JsonConvert.SerializeObject(user)}");
-                return Ok();
+                if (await _platformRepository.AddUserAsync(user))
+                    return Ok();
             }
             catch (Exception e)
             {

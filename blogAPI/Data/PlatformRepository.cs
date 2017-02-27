@@ -29,16 +29,19 @@ namespace blogAPI.Data
         /// adds user to MongoDB
         /// </summary>
         /// <param name="user">User to add</param>
-        public async Task AddUserAsync(User user)
+        public async Task<bool> AddUserAsync(User user)
         {
             try
             {
                 await _context.Users.InsertOneAsync(user);
+                _logger.LogInformation($"User: {user} was added");
+                return true;
             }
             catch (Exception e)
             {
                 _logger.LogError($"Adding user \n {e.Message}");
             }
+            return false;
         }
         /// <summary>
         /// return all Users from MongoDB
