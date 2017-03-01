@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 using blogAPI.Models;
 using blogAPI.Interfaces;
@@ -34,7 +35,7 @@ namespace blogAPI.Data
             try
             {
                 await _context.Users.InsertOneAsync(user);
-                _logger.LogInformation($"User: {user} was added");
+                _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
                 return true;
             }
             catch (Exception e)
