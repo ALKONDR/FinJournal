@@ -41,5 +41,19 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            try
+            {
+                var user = await _platformRepository.GetUserByIdAsync(id);
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting user by id\n {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }
