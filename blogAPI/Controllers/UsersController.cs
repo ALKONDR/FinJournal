@@ -1,12 +1,11 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 using blogAPI.Models;
-using blogAPI.Interfaces;
 using blogAPI.Data;
 
 namespace blogAPI.Controllers
@@ -22,15 +21,25 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(_platformRepository.GetAllUsersAsync());
+            try
+            {
+                var result = await _platformRepository.GetAllUsersAsync();
+                return Ok(_platformRepository.GetAllUsersAsync());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all users\n {e.Message}");
+            }
+            return BadRequest();
         }
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]User user)
         {
             try
             {
+                user.Id = new ObjectId();
                 _logger.LogInformation($"Trying to post user \n {JsonConvert.SerializeObject(user)}");
                 if (await _platformRepository.AddUserAsync(user))
                     return Ok();
@@ -41,31 +50,46 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet("{userName}")]
+        public async Task<IActionResult> Get(string userName)
         {
             try
             {
-                var user = await _platformRepository.GetUserByIdAsync(id);
+                var user = await _platformRepository.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
             catch (Exception e)
             {
-                _logger.LogError($"Error while getting user by id\n {e.Message}");
+                _logger.LogError($"Error while getting user by UserName\n {e.Message}");
             }
             return BadRequest();
         }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("{userName}")]
+        public async Task<IActionResult> Delete(string userName)
         {
             try
             {
-                if (await _platformRepository.RemoveUserByIdAsync(id))
+                if (await _platformRepository.RemoveUserByUserNameAsync(userName))
                     return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"Error while deleting user by id\n {e.Message}");
+                _logger.LogError($"Error while deleting user by UserName\n {e.Message}");
+            }
+            return BadRequest();
+        }
+        //TODO: make work normal
+        [HttpPut("{userName}")]
+        public async Task<IActionResult> Put(string userName, [FromBody]User user)
+        {
+            try
+            {
+                if (await _platformRepository.UpdateUserAsync(userName, user))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while updating user\n {e.Message}");
             }
             return BadRequest();
         }

@@ -65,13 +65,13 @@ namespace blogAPI.Data
             return null;
         }
         /// <summary>
-        /// returns user by given id
+        /// returns user by given UserName
         /// </summary>
-        /// <param name="id">user id to get</param>
+        /// <param name="userName">UserName to get</param>
         /// <returns>user or null</returns>
-        public async Task<User> GetUserByIdAsync(string id)
+        public async Task<User> GetUserByUserNameAsync(string userName)
         {
-            var filter = Builders<User>.Filter.Eq("Id", id);
+            var filter = Builders<User>.Filter.Eq("UserName", userName);
 
             try
             {
@@ -79,48 +79,51 @@ namespace blogAPI.Data
             }
             catch (Exception e)
             {
-                _logger.LogError($"Getting user by id \n {e.Message}");
+                _logger.LogError($"Getting user by UserName \n {e.Message}");
             }
 
             return null;
         }
         /// <summary>
-        /// removes user by given id
+        /// removes user by given UserName
         /// </summary>
-        /// <param name="id">user id to remove</param>
+        /// <param name="userName">UserName to remove the user</param>
         /// <returns>DeleteResult</returns>
-        public async Task<bool> RemoveUserByIdAsync(string id)
+        public async Task<bool> RemoveUserByUserNameAsync(string userName)
         {
             try
             {
-                var result = await _context.Users.DeleteOneAsync(u => u.Id == id);
+                var result = await _context.Users.DeleteOneAsync(u => u.UserName == userName);
                 if (result.DeletedCount > 0)
                     return true;
             }
             catch (Exception e)
             {
-                _logger.LogError($"Removing user by id \n {e.Message}");
+                _logger.LogError($"Removing user by UserName \n {e.Message}");
             }
 
             return false;
         }
         /// <summary>
-        /// updates given user
+        /// update user by UserName
         /// </summary>
+        /// <param name="userName">user name</param>
         /// <param name="user">user to update</param>
-        /// <returns>ReplaceOneResult</returns>
-        public async Task<ReplaceOneResult> UpdateUserAsync(User user)
+        /// <returns></returns>
+        public async Task<bool> UpdateUserAsync(string userName, User user)
         {
             try
             {
-                return await _context.Users.ReplaceOneAsync(u => u.Id.Equals(user.Id), user);
+                var result = await _context.Users.ReplaceOneAsync(u => u.UserName.Equals(userName), user);
+                if (result.ModifiedCount > 0)
+                    return true;
             }
             catch (Exception e)
             {
                 _logger.LogError($"Updating user \n {e.Message}");
             }
             
-            return null;
+            return false;
         }
     }
 }
