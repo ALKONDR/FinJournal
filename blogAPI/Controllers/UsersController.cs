@@ -55,5 +55,19 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                if (await _platformRepository.RemoveUserByIdAsync(id))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while deleting user by id\n {e.Message}");
+            }
+            return BadRequest();
+        }
     }
 }

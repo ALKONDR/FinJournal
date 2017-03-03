@@ -89,18 +89,20 @@ namespace blogAPI.Data
         /// </summary>
         /// <param name="id">user id to remove</param>
         /// <returns>DeleteResult</returns>
-        public async Task<DeleteResult> RemoveUserByIdAsync(string id)
+        public async Task<bool> RemoveUserByIdAsync(string id)
         {
             try
             {
-                return await _context.Users.DeleteOneAsync(u => u.Id == id);
+                var result = await _context.Users.DeleteOneAsync(u => u.Id == id);
+                if (result.DeletedCount > 0)
+                    return true;
             }
             catch (Exception e)
             {
                 _logger.LogError($"Removing user by id \n {e.Message}");
             }
 
-            return null;
+            return false;
         }
         /// <summary>
         /// updates given user

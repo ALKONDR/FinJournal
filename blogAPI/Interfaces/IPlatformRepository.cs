@@ -12,6 +12,6 @@ namespace blogAPI.Interfaces
         Task<User> GetUserByIdAsync(string id);
         Task<bool> AddUserAsync(User user);
         Task<ReplaceOneResult> UpdateUserAsync(User user);
-        Task<DeleteResult> RemoveUserByIdAsync(string id);
+        Task<bool> RemoveUserByIdAsync(string id);
     }
 }
