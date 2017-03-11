@@ -20,11 +20,12 @@ namespace blogAPI.Data
         /// </summary>
         private readonly DBContext _context;
         private readonly ILogger _logger;
-        public UsersRepository(IOptions<Settings> settings, ILogger<PlatformRepository> logger)
+        public UsersRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger)
         {
             _context = new DBContext(settings);
             _logger = logger;
         }
+        
         /// <summary>
         /// adds user to MongoDB
         /// </summary>
@@ -33,6 +34,9 @@ namespace blogAPI.Data
         {
             try
             {
+                if ((await GetUserByUserNameAsync(user.UserName)) != null)
+                    return false;
+
                 await _context.Users.InsertOneAsync(user);
                 _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
                 return true;
@@ -93,6 +97,7 @@ namespace blogAPI.Data
             try
             {
                 var result = await _context.Users.DeleteOneAsync(u => u.UserName == userName);
+
                 if (result.DeletedCount > 0)
                     return true;
             }
@@ -113,6 +118,9 @@ namespace blogAPI.Data
         {
             try
             {
+                if ((await GetUserByUserNameAsync(user.UserName)) != null)
+                    return false;
+
                 var result = await _context.Users.ReplaceOneAsync(u => u.UserName.Equals(userName), user);
                 if (result.ModifiedCount > 0)
                     return true;

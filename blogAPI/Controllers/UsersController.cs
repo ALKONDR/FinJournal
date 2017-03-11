@@ -39,8 +39,10 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if ((await _usersRepository.GetUserByUserNameAsync(user.UserName)) != null)
+                    return BadRequest("Such userName already exists");
+
                 user.Id = new ObjectId();
-                _logger.LogInformation($"Trying to post user \n {JsonConvert.SerializeObject(user)}");
                 if (await _usersRepository.AddUserAsync(user))
                     return Ok();
             }
@@ -92,6 +94,6 @@ namespace blogAPI.Controllers
                 _logger.LogError($"Error while updating user\n {e.Message}");
             }
             return BadRequest();
-        }
+        } 
     }
 }

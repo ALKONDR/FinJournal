@@ -14,7 +14,7 @@ namespace blogAPI.Data
     {
         private readonly DBContext _context;
         private readonly ILogger _logger;
-        public StoriesRepository(IOptions<Settings> settings, ILogger<PlatformRepository> logger)
+        public StoriesRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger)
         {
             _context = new DBContext(settings);
             _logger = logger;

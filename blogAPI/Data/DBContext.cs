@@ -39,12 +39,5 @@ namespace blogAPI.Data
                 return _database.GetCollection<Models.Tag>("Tags");
             }
         }
-        public IMongoCollection<string> UserNames
-        {
-            get
-            {
-                return _database.GetCollection<string>("UserNames");
-            }
-        }
     }
 }
