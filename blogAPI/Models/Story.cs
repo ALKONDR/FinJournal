@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 using blogAPI.Interfaces;
+
 
 namespace blogAPI.Models
 {
     public class Story : IPostable
     {
-        public string Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public User Author { get; set; }

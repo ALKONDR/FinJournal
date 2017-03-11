@@ -13,11 +13,11 @@ namespace blogAPI.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly PlatformRepository _platformRepository;
+        private readonly UsersRepository _usersRepository;
         private readonly ILogger _logger;
-        public UsersController(ILogger<UsersController> logger, PlatformRepository platformRepository)
+        public UsersController(ILogger<UsersController> logger, UsersRepository usersRepository)
         {
-            _platformRepository = platformRepository;
+            _usersRepository = usersRepository;
             _logger = logger;
         }
         [HttpGet]
@@ -25,8 +25,8 @@ namespace blogAPI.Controllers
         {
             try
             {
-                var result = await _platformRepository.GetAllUsersAsync();
-                return Ok(_platformRepository.GetAllUsersAsync());
+                var result = await _usersRepository.GetAllUsersAsync();
+                return Ok(_usersRepository.GetAllUsersAsync());
             }
             catch (Exception e)
             {
@@ -41,7 +41,7 @@ namespace blogAPI.Controllers
             {
                 user.Id = new ObjectId();
                 _logger.LogInformation($"Trying to post user \n {JsonConvert.SerializeObject(user)}");
-                if (await _platformRepository.AddUserAsync(user))
+                if (await _usersRepository.AddUserAsync(user))
                     return Ok();
             }
             catch (Exception e)
@@ -55,7 +55,7 @@ namespace blogAPI.Controllers
         {
             try
             {
-                var user = await _platformRepository.GetUserByUserNameAsync(userName);
+                var user = await _usersRepository.GetUserByUserNameAsync(userName);
                 return Ok(user);
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace blogAPI.Controllers
         {
             try
             {
-                if (await _platformRepository.RemoveUserByUserNameAsync(userName))
+                if (await _usersRepository.RemoveUserByUserNameAsync(userName))
                     return Ok();
             }
             catch (Exception e)
@@ -84,7 +84,7 @@ namespace blogAPI.Controllers
         {
             try
             {
-                if (await _platformRepository.UpdateUserAsync(userName, user))
+                if (await _usersRepository.UpdateUserAsync(userName, user))
                     return Ok();
             }
             catch (Exception e)

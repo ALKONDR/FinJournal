@@ -7,21 +7,20 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 using blogAPI.Models;
-using blogAPI.Interfaces;
 
 namespace blogAPI.Data
 {
     /// <summary>
     /// class for easier work with MongoDB
     /// </summary>
-    public class PlatformRepository : IPlatformRepository
+    public class UsersRepository
     {
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
         private readonly DBContext _context;
         private readonly ILogger _logger;
-        public PlatformRepository(IOptions<Settings> settings, ILogger<PlatformRepository> logger)
+        public UsersRepository(IOptions<Settings> settings, ILogger<PlatformRepository> logger)
         {
             _context = new DBContext(settings);
             _logger = logger;
