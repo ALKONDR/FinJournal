@@ -18,7 +18,7 @@ namespace blogAPI.Data
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
-        private readonly DBContext _context;
+        protected readonly DBContext _context;
         private readonly ILogger _logger;
         public UsersRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger)
         {
@@ -38,7 +38,7 @@ namespace blogAPI.Data
                     return false;
 
                 await _context.Users.InsertOneAsync(user);
-                _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
+                // _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
                 return true;
             }
             catch (Exception e)

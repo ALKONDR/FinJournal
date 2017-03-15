@@ -10,14 +10,31 @@ using blogAPI.Models;
 
 namespace blogAPI.Data
 {
-    public class StoriesRepository
+    public class StoriesRepository: UsersRepository
     {
-        private readonly DBContext _context;
+        // private readonly DBContext _context;
         private readonly ILogger _logger;
-        public StoriesRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger)
+        public StoriesRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger) : base(settings, logger){}
+        public async Task<bool> AddStoryAsync(string userName, Story story)
         {
-            _context = new DBContext(settings);
-            _logger = logger;
+            try
+            {
+                var user = await GetUserByUserNameAsync(userName);
+                
+                if (user == null)
+                    return false;
+
+                user.Stories.Add(story);
+                
+                if (await UpdateUserAsync(userName, user))
+                    return true;
+
+            } catch (Exception e)
+            {
+                _logger.LogError($"Error while adding story\n {e.Message}");
+            }
+
+            return false;
         }
     }
 }
