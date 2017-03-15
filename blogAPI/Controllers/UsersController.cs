@@ -1,6 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+// using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using MongoDB.Bson;
@@ -80,12 +80,18 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
-        //TODO: make work normal
         [HttpPut("{userName}")]
         public async Task<IActionResult> Put(string userName, [FromBody]User user)
         {
             try
             {
+                var userFromDB = await _usersRepository.GetUserByUserNameAsync(userName);
+
+                if (userFromDB != null)
+                    user.Id = userFromDB.Id;
+                else
+                    return BadRequest();
+
                 if (await _usersRepository.UpdateUserAsync(userName, user))
                     return Ok();
             }
