@@ -32,8 +32,8 @@ namespace blogAPI.Data
                 if (user == null)
                     return false;
 
-                _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
-                _logger.LogDebug($"New story:\n {JsonConvert.SerializeObject(story)}\n");
+                // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
+                // _logger.LogDebug($"New story:\n {JsonConvert.SerializeObject(story)}\n");
 
                 if (user.Stories == null)
                     user.Stories = new List<Story>();
@@ -41,17 +41,37 @@ namespace blogAPI.Data
                 user.Stories.Add(story);
                 
 
-                _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
+                // _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
                 
                 if (await UpdateUserAsync(userName, user))
                     return true;
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 _logger.LogError($"Error while adding story\n {e.Message}");
             }
 
             return false;
+        }
+        public async Task<IEnumerable<Story>> GetAllStoriesAsync(string userName)
+        {
+            try
+            {
+                User user = await GetUserByUserNameAsync(userName);
+
+                if (user == null)
+                    return null;
+
+                return user.Stories;
+                
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all stories\n {e.Message}");
+            }
+
+            return null;
         }
     }
 }

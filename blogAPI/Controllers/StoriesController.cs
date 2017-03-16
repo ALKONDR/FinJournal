@@ -9,7 +9,7 @@ using blogAPI.Data;
 
 namespace blogAPI.Controllers
 {
-    [Route("api/users/{userName}/posts")]
+    [Route("api/users/{userName}/stories")]
     public class StoriesController : Controller
     {
         private readonly StoriesRepository _storiesRepository;
@@ -29,9 +29,21 @@ namespace blogAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Error while adding post\n {e.Message}");
+                _logger.LogError($"Error while adding story\n {e.Message}");
             }
 
+            return BadRequest();
+        }
+        public async Task<IActionResult> Get(string userName)
+        {
+            try
+            {
+                return Ok(await _storiesRepository.GetAllStoriesAsync(userName));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all stories\n {e.Message}");
+            }
             return BadRequest();
         }
     }
