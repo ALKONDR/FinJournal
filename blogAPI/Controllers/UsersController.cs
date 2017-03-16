@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 // using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 
 using blogAPI.Models;
 using blogAPI.Data;
@@ -42,7 +41,6 @@ namespace blogAPI.Controllers
                 if ((await _usersRepository.GetUserByUserNameAsync(user.UserName)) != null)
                     return BadRequest("Such userName already exists");
 
-                user.Id = new ObjectId();
                 if (await _usersRepository.AddUserAsync(user))
                     return Ok();
             }

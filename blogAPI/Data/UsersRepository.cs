@@ -4,7 +4,8 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using MongoDB.Bson;
+// using Newtonsoft.Json;
 
 using blogAPI.Models;
 
@@ -36,6 +37,8 @@ namespace blogAPI.Data
             {
                 if ((await GetUserByUserNameAsync(user.UserName)) != null)
                     return false;
+                
+                user.Id = new ObjectId();
 
                 await _context.Users.InsertOneAsync(user);
                 // _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
@@ -118,7 +121,7 @@ namespace blogAPI.Data
         {
             try
             {
-                if ((await GetUserByUserNameAsync(user.UserName)) != null)
+                if (userName != user.UserName && (await GetUserByUserNameAsync(user.UserName)) != null)
                     return false;
 
                 var result = await _context.Users.ReplaceOneAsync(u => u.UserName.Equals(userName), user);

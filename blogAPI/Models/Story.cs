@@ -10,11 +10,11 @@ namespace blogAPI.Models
 {
     public class Story : IPostable
     {
-        [BsonId]
+        // [BsonId]
         public ObjectId Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
-        public User Author { get; set; }
+        public string Author { get; set; } = string.Empty;
         public int ReadingTime { get; set; }
         public int Watches { get; set; }
         public List<Opinion> Likes { get; set; } = null;
