@@ -64,7 +64,6 @@ namespace blogAPI.Data
                     return null;
 
                 return user.Stories;
-                
             }
             catch (Exception e)
             {
@@ -72,6 +71,26 @@ namespace blogAPI.Data
             }
 
             return null;
+        }
+        public async Task<bool> DeleteStoryAsync(string userName, string title)
+        {
+            try
+            {
+                User user = await GetUserByUserNameAsync(userName);
+
+                if (user == null)
+                    return false;
+
+                user.Stories.RemoveAll(story => story.Title == title);
+
+                if (await UpdateUserAsync(userName, user))
+                    return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while deleting story\n {e.Message}");
+            }
+            return false;
         }
     }
 }

@@ -34,6 +34,7 @@ namespace blogAPI.Controllers
 
             return BadRequest();
         }
+        [HttpGet]
         public async Task<IActionResult> Get(string userName)
         {
             try
@@ -43,6 +44,20 @@ namespace blogAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError($"Error while getting all stories\n {e.Message}");
+            }
+            return BadRequest();
+        }
+        [HttpDelete("{title}")]
+        public async Task<IActionResult> Delete(string userName, string title)
+        {
+            try
+            {
+                if (await _storiesRepository.DeleteStoryAsync(userName, title))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while deleting story\n {e.Message}");
             }
             return BadRequest();
         }
