@@ -61,5 +61,25 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        [HttpGet("{title}")]
+        public async Task<IActionResult> Get(string userName, string title)
+        {
+            try
+            {
+                _logger.LogDebug("Getting story by title\n");
+                var story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+                
+                if (story == null)
+                    return BadRequest();
+                
+                return Ok(story);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting story by title\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
     }
 }

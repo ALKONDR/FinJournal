@@ -43,8 +43,7 @@ namespace blogAPI.Data
 
                 // _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
                 
-                if (await UpdateUserAsync(userName, user))
-                    return true;
+                return await UpdateUserAsync(userName, user);
 
             }
             catch (Exception e)
@@ -68,6 +67,30 @@ namespace blogAPI.Data
             catch (Exception e)
             {
                 _logger.LogError($"Error while getting all stories\n {e.Message}");
+            }
+
+            return null;
+        }
+        public async Task<Story> GetStoryByTitleAsync(string userName, string title)
+        {
+            try
+            {
+                User user = await GetUserByUserNameAsync(userName);
+
+                if (user == null)
+                    return null;
+
+                Story story = null;
+                if (user.Stories != null)
+                    story = user.Stories.Find(s => s.Title.Equals(title));
+
+                _logger.LogDebug($"Story:\n {JsonConvert.SerializeObject(story)}\n");
+
+                return story;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting story by title\n {e.Message}");
             }
 
             return null;
