@@ -11,12 +11,13 @@ using blogAPI.Models;
 
 namespace blogAPI.Data
 {
-    public class StoriesRepository: UsersRepository
+    public class StoriesRepository
     {
-        // private readonly DBContext _context;
         private readonly ILogger _logger;
-        public StoriesRepository(IOptions<Settings> settings, ILogger<StoriesRepository> logger) : base(settings, logger)
+        private readonly UsersRepository _usersRepository;
+        public StoriesRepository(UsersRepository usersRepository, ILogger<StoriesRepository> logger)
         {
+            _usersRepository = usersRepository;
             _logger = logger;
         }
         public async Task<bool> AddStoryAsync(string userName, Story story)
@@ -27,13 +28,18 @@ namespace blogAPI.Data
                 story.Date = DateTime.Now;
                 story.Author = userName;
 
-                User user = await GetUserByUserNameAsync(userName);
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
                 
                 if (user == null)
                     return false;
 
                 // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
                 // _logger.LogDebug($"New story:\n {JsonConvert.SerializeObject(story)}\n");
+
+                // check if story with such title is already exists
+                Story sameStory = await GetStoryByTitleAsync(userName, story.Title);
+                if (sameStory != null)
+                    return false;
 
                 if (user.Stories == null)
                     user.Stories = new List<Story>();
@@ -43,7 +49,7 @@ namespace blogAPI.Data
 
                 // _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
                 
-                return await UpdateUserAsync(userName, user);
+                return await _usersRepository.UpdateUserAsync(userName, user);
 
             }
             catch (Exception e)
@@ -57,7 +63,7 @@ namespace blogAPI.Data
         {
             try
             {
-                User user = await GetUserByUserNameAsync(userName);
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
 
                 if (user == null)
                     return null;
@@ -75,7 +81,7 @@ namespace blogAPI.Data
         {
             try
             {
-                User user = await GetUserByUserNameAsync(userName);
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
 
                 if (user == null)
                     return null;
@@ -99,14 +105,14 @@ namespace blogAPI.Data
         {
             try
             {
-                User user = await GetUserByUserNameAsync(userName);
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
 
                 if (user == null)
                     return false;
 
                 user.Stories.RemoveAll(story => story.Title == title);
 
-                if (await UpdateUserAsync(userName, user))
+                if (await _usersRepository.UpdateUserAsync(userName, user))
                     return true;
             }
             catch (Exception e)
