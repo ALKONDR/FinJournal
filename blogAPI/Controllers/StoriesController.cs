@@ -13,12 +13,15 @@ namespace blogAPI.Controllers
     public class StoriesController : Controller
     {
         private readonly StoriesRepository _storiesRepository;
+        
         private readonly ILogger _logger;
+
         public StoriesController(ILogger<StoriesController> logger, StoriesRepository storiesRepository)
         {
             _storiesRepository = storiesRepository;
             _logger = logger;
         }
+
         [HttpPost]
         public async Task<IActionResult> Post(string userName, [FromBody]Story story)
         {
@@ -34,6 +37,7 @@ namespace blogAPI.Controllers
 
             return BadRequest();
         }
+        
         [HttpGet]
         public async Task<IActionResult> Get(string userName)
         {
@@ -47,6 +51,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpDelete("{title}")]
         public async Task<IActionResult> Delete(string userName, string title)
         {
@@ -61,6 +66,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpGet("{title}")]
         public async Task<IActionResult> Get(string userName, string title)
         {
@@ -79,6 +85,21 @@ namespace blogAPI.Controllers
                 _logger.LogError($"Error while getting story by title\n {e.Message}");
             }
 
+            return BadRequest();
+        }
+
+        [HttpPut("{title}")]
+        public async Task<IActionResult> Put(string userName, string title, [FromBody] Story story)
+        {
+            try
+            {
+                if (await _storiesRepository.UpdateStoryAsync(userName, title, story))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while updating story\n {e.Message}");
+            }
             return BadRequest();
         }
     }

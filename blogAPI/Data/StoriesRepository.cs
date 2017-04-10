@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Driver;
 using MongoDB.Bson;
-using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -118,6 +116,26 @@ namespace blogAPI.Data
             catch (Exception e)
             {
                 _logger.LogError($"Error while deleting story\n {e.Message}");
+            }
+            return false;
+        }
+        public async Task<bool> UpdateStoryAsync(string userName, string title, Story story)
+        {
+            try
+            {
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
+
+                if (user == null || user.Stories == null || !user.Stories.Exists(s => s.Title == title))
+                    return false;
+
+                var index = user.Stories.FindIndex(s => s.Title == title);
+                user.Stories[index] = story;
+
+                return await _usersRepository.UpdateUserAsync(userName, user);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while updating story\n {e.Message}");
             }
             return false;
         }

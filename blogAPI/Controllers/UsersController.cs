@@ -13,12 +13,15 @@ namespace blogAPI.Controllers
     public class UsersController : Controller
     {
         private readonly UsersRepository _usersRepository;
+        
         private readonly ILogger _logger;
+        
         public UsersController(ILogger<UsersController> logger, UsersRepository usersRepository)
         {
             _usersRepository = usersRepository;
             _logger = logger;
         }
+        
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -33,6 +36,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]User user)
         {
@@ -50,6 +54,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpGet("{userName}")]
         public async Task<IActionResult> Get(string userName)
         {
@@ -64,6 +69,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpDelete("{userName}")]
         public async Task<IActionResult> Delete(string userName)
         {
@@ -78,6 +84,7 @@ namespace blogAPI.Controllers
             }
             return BadRequest();
         }
+        
         [HttpPut("{userName}")]
         public async Task<IActionResult> Put(string userName, [FromBody]User user)
         {
