@@ -18,6 +18,30 @@ namespace blogAPI.Data
             _usersRepository = usersRepository;
             _logger = logger;
         }
+        public async Task<Story> GetStoryByTitleAsync(string userName, string title)
+        {
+            try
+            {
+                User user = await _usersRepository.GetUserByUserNameAsync(userName);
+
+                Story story = null;
+
+                if (user == null || user.Stories == null || !user.Stories.Exists(s => s.Title.Equals(title)))
+                    return null;
+                
+                story = user.Stories.Find(s => s.Title.Equals(title));
+
+                _logger.LogDebug($"Story:\n {JsonConvert.SerializeObject(story)}\n");
+
+                return story;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting story by title\n {e.Message}");
+            }
+
+            return null;
+        }
         public async Task<bool> AddStoryAsync(string userName, Story story)
         {
             try
@@ -31,7 +55,6 @@ namespace blogAPI.Data
                 if (user == null)
                     return false;
 
-                // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
                 // _logger.LogDebug($"New story:\n {JsonConvert.SerializeObject(story)}\n");
 
                 // check if story with such title is already exists
@@ -41,10 +64,11 @@ namespace blogAPI.Data
 
                 if (user.Stories == null)
                     user.Stories = new List<Story>();
+
+                // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
                 
                 user.Stories.Add(story);
                 
-
                 // _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
                 
                 return await _usersRepository.UpdateUserAsync(userName, user);
@@ -75,37 +99,13 @@ namespace blogAPI.Data
 
             return null;
         }
-        public async Task<Story> GetStoryByTitleAsync(string userName, string title)
-        {
-            try
-            {
-                User user = await _usersRepository.GetUserByUserNameAsync(userName);
-
-                if (user == null)
-                    return null;
-
-                Story story = null;
-                if (user.Stories != null)
-                    story = user.Stories.Find(s => s.Title.Equals(title));
-
-                _logger.LogDebug($"Story:\n {JsonConvert.SerializeObject(story)}\n");
-
-                return story;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Error while getting story by title\n {e.Message}");
-            }
-
-            return null;
-        }
         public async Task<bool> DeleteStoryAsync(string userName, string title)
         {
             try
             {
                 User user = await _usersRepository.GetUserByUserNameAsync(userName);
 
-                if (user == null)
+                if (user == null || user.Stories == null)
                     return false;
 
                 user.Stories.RemoveAll(story => story.Title == title);

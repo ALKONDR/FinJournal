@@ -71,7 +71,6 @@ namespace blogAPI.Controllers
         {
             try
             {
-                _logger.LogDebug("Getting story by title\n");
                 var story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
                 
                 if (story == null)

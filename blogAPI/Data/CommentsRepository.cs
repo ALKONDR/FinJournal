@@ -18,5 +18,20 @@ namespace blogAPI.Data
             _storiesRepository = storiesRepository;
             _logger = logger;
         }
+        public async Task<ICollection<Comment>> GetAllCommentsAsync(string userName, string title)
+        {
+            try
+            {
+                Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+
+                return story.Comments;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all comments\n {e.Message}");
+            }
+
+            return null;
+        }
     }
 }
