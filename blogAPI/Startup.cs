@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 
 using blogAPI.Models;
 using blogAPI.Data;
-using blogAPI.Interfaces;
 
 namespace blogAPI
 {
@@ -39,6 +38,7 @@ namespace blogAPI
 
             services.AddSingleton<UsersRepository>();
             services.AddSingleton<StoriesRepository>();
+            services.AddSingleton<CommentsRepository>();
             
             // Add framework services.
             services.AddMvc();
