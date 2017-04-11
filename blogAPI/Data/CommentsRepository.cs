@@ -31,6 +31,21 @@ namespace blogAPI.Data
 
             return null;
         }
+        public async Task<Comment> GetCommentByIdAsync(string userName, string title, int Id)
+        {
+            try
+            {
+                Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+
+                return story.Comments[Id];
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting comment by id\n {e.Message}");
+            }
+
+            return null;
+        }
         public async Task<bool> AddCommentAsync(string userName, string title, Comment comment)
         {
             try
@@ -94,9 +109,8 @@ namespace blogAPI.Data
                 if (index != -1)
                 {
                     story.Comments[index] = comment;
-                    await _storiesRepository.UpdateStoryAsync(userName, title, story);
                     
-                    return true;
+                    return await _storiesRepository.UpdateStoryAsync(userName, title, story);
                 }
             }
             catch (Exception e)

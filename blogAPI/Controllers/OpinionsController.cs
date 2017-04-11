@@ -18,5 +18,20 @@ namespace blogAPI.Controllers
             _opinionsRepository = opinionsRepository;
             _logger = logger;
         }
+
+        [HttpPost("comment/{Id}/{type}")]
+        public async Task<IActionResult> CommentPost(string userName, string title, int Id, string type, [FromBody]Opinion opinion)
+        {
+            try
+            {
+                return Ok(await _opinionsRepository.AddCommentOpinion(type, userName, title, Id, opinion));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while adding comment opinion\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
     }
 }
