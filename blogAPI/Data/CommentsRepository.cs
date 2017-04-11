@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 using blogAPI.Models;
 
@@ -81,6 +79,29 @@ namespace blogAPI.Data
             catch (Exception e)
             {
                 _logger.LogError($"Error while deleting comment\n {e.Message}");
+            }
+
+            return false;
+        }
+        public async Task<bool> UpdateCommentAsync(string userName, string title, Comment comment)
+        {
+            try
+            {
+                Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+
+                int index = story.Comments.FindIndex(com => com.Id == comment.Id);
+
+                if (index != -1)
+                {
+                    story.Comments[index] = comment;
+                    await _storiesRepository.UpdateStoryAsync(userName, title, story);
+                    
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while updating comment\n {e.Message}");
             }
 
             return false;

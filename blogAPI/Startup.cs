@@ -39,6 +39,7 @@ namespace blogAPI
             services.AddSingleton<UsersRepository>();
             services.AddSingleton<StoriesRepository>();
             services.AddSingleton<CommentsRepository>();
+            services.AddSingleton<OpinionsRepository>();
             
             // Add framework services.
             services.AddMvc();
