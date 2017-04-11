@@ -56,5 +56,20 @@ namespace blogAPI.Controllers
             return BadRequest();
         }
 
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete(string userName, string title, int Id)
+        {
+            try
+            {
+                if (await _commentsRepository.DeleteCommentAsync(userName, title, Id))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while updating comment\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
     }
 }

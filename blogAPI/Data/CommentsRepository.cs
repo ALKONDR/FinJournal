@@ -43,7 +43,12 @@ namespace blogAPI.Data
                     return false;
                 
                 comment.Author = userName;
-                comment.Id = story.Comments.Count;
+                
+                if (story.Comments.Count == 0)
+                    comment.Id = story.Comments.Count;
+                else
+                    comment.Id = story.Comments[story.Comments.Count - 1].Id + 1; // last Id + 1
+
                 comment.Date = DateTime.Now;
 
                 story.Comments.Add(comment);
@@ -53,6 +58,29 @@ namespace blogAPI.Data
             catch (Exception e)
             {
                 _logger.LogError($"Error while adding comment\n {e.Message}");
+            }
+
+            return false;
+        }
+        public async Task<bool> DeleteCommentAsync(string userName, string title, int Id)
+        {
+            try
+            {
+                Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+
+                int index = story.Comments.FindIndex(com => com.Id == Id);
+
+                if (index != -1)
+                {
+                    story.Comments.RemoveAt(index);
+                    await _storiesRepository.UpdateStoryAsync(userName, title, story);
+                    
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while deleting comment\n {e.Message}");
             }
 
             return false;
