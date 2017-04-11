@@ -33,5 +33,29 @@ namespace blogAPI.Data
 
             return null;
         }
+        public async Task<bool> AddCommentAsync(string userName, string title, Comment comment)
+        {
+            try
+            {
+                Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
+
+                if (story == null)
+                    return false;
+                
+                comment.Author = userName;
+                comment.Id = story.Comments.Count;
+                comment.Date = DateTime.Now;
+
+                story.Comments.Add(comment);
+
+                return await _storiesRepository.UpdateStoryAsync(userName, title, story);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while adding comment\n {e.Message}");
+            }
+
+            return false;
+        }
     }
 }

@@ -62,9 +62,6 @@ namespace blogAPI.Data
                 if (sameStory != null)
                     return false;
 
-                if (user.Stories == null)
-                    user.Stories = new List<Story>();
-
                 // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
                 
                 user.Stories.Add(story);

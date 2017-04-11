@@ -39,5 +39,22 @@ namespace blogAPI.Controllers
             
             return BadRequest();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(string userName, string title, [FromBody]Comment comment)
+        {
+            try
+            {
+                if (await _commentsRepository.AddCommentAsync(userName, title, comment))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while adding a comment\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
+
     }
 }

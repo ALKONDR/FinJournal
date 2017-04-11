@@ -14,12 +14,12 @@ namespace blogAPI.Models
         public string Title { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public string Author { get; set; } = string.Empty;
-        public int ReadingTime { get; set; }
-        public int Watches { get; set; }
-        public List<Opinion> Likes { get; set; } = null;
-        public List<Opinion> Dislikes { get; set; } = null;
+        public int ReadingTime { get; set; } = 0;
+        public int Watches { get; set; } = 0;
+        public List<Opinion> Likes { get; set; } = new List<Opinion>();
+        public List<Opinion> Dislikes { get; set; } = new List<Opinion>();
         public string Content { get; set; } = string.Empty;
-        public List<string> Tags { get; set; } = null;
-        public List<Comment> Comments { get; set; } = null;
+        public List<string> Tags { get; set; } = new List<string>();
+        public List<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
