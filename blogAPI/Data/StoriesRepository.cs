@@ -31,7 +31,7 @@ namespace blogAPI.Data
                 
                 story = user.Stories.Find(s => s.Title.Equals(title));
 
-                _logger.LogDebug($"Story:\n {JsonConvert.SerializeObject(story)}\n");
+                // _logger.LogDebug($"Story:\n {JsonConvert.SerializeObject(story)}\n");
 
                 return story;
             }

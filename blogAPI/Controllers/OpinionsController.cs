@@ -19,17 +19,33 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
 
-        [HttpPost("comments/{Id}/{type}")]
-        public async Task<IActionResult> CommentPost(string userName, string title, int Id, string type, [FromBody]Opinion opinion)
+        [HttpPost("comments/{Id}/{type}/{author}")]
+        public async Task<IActionResult> CommentPost(string userName, string title, int Id, string type, string author)
         {
             try
             {
-                if (await _opinionsRepository.AddCommentOpinion(type, userName, title, Id, opinion))
+                if (await _opinionsRepository.AddCommentOpinion(type, userName, title, Id, author))
                     return Ok();
             }
             catch (Exception e)
             {
                 _logger.LogError($"Error while adding comment opinion\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("comments/{Id}/{type}/{author}")]
+        public async Task<IActionResult> CommentDelete(string userName, string title, int Id, string type, string author)
+        {
+            try
+            {
+                if (await _opinionsRepository.DeleteCommentOpinionAsync(type, userName, title, Id, author))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while deleting comment opinion\n {e.Message}");
             }
 
             return BadRequest();
