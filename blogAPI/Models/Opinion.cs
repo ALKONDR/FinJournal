@@ -4,7 +4,7 @@ namespace blogAPI.Models
 {
     public class Opinion
     {
-        DateTime Date { get; set; }
-        string Author { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public string Author { get; set; } = string.Empty;
     }
 }

@@ -37,7 +37,10 @@ namespace blogAPI.Data
             {
                 Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
 
-                return story.Comments[Id];
+                int index = story.Comments.FindIndex(com => com.Id == Id);
+
+                if (index != -1)
+                    return story.Comments[index];
             }
             catch (Exception e)
             {
@@ -55,7 +58,7 @@ namespace blogAPI.Data
                 if (story == null)
                     return false;
                 
-                comment.Author = userName;
+                // comment.Author = userName;
                 
                 if (story.Comments.Count == 0)
                     comment.Id = story.Comments.Count;

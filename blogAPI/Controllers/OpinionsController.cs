@@ -19,12 +19,13 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
 
-        [HttpPost("comment/{Id}/{type}")]
+        [HttpPost("comments/{Id}/{type}")]
         public async Task<IActionResult> CommentPost(string userName, string title, int Id, string type, [FromBody]Opinion opinion)
         {
             try
             {
-                return Ok(await _opinionsRepository.AddCommentOpinion(type, userName, title, Id, opinion));
+                if (await _opinionsRepository.AddCommentOpinion(type, userName, title, Id, opinion))
+                    return Ok();
             }
             catch (Exception e)
             {

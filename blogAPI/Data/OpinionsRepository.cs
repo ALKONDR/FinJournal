@@ -28,6 +28,8 @@ namespace blogAPI.Data
         {
             try
             {
+                opinion.Date = DateTime.Now;
+                
                 var comment = await _commentsRepository.GetCommentByIdAsync(userName, title, Id);
                 
                 switch (type)
