@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 
+using blogAPI.Interfaces;
+
 namespace blogAPI.Models
 {
-    public class Comment
+    public class Comment : IPostable
     {
         public int Id { get; set; } 
         public DateTime Date { get; set; }
