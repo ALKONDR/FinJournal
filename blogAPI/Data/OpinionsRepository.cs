@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+// using Newtonsoft.Json;
 
 using blogAPI.Models;
 
@@ -21,6 +22,36 @@ namespace blogAPI.Data
             _logger = logger;
             _commentsRepository = commentsRepository;
             _storiesRepository = storiesRepository;
+        }
+
+        public async Task<ICollection<Opinion>> GetAllCommentOpinionsAsync(string type, string userName, string title, int Id)
+        {
+            try
+            {
+                var comment = await _commentsRepository.GetCommentByIdAsync(userName, title, Id);
+
+                if (comment != null)
+                {
+                    switch (type)
+                    {
+                        case LIKE:
+                            return comment.Likes;
+
+                        case DISLIKE:
+                            return comment.Dislikes;
+                        
+                        default:
+                            _logger.LogDebug("Invalid type of the opinions");
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all comment opinions\n {e.Message}");
+            }
+
+            return null;
         }
         public async Task<bool> AddCommentOpinion(string type, string userName, string title, int Id, string author)
         {

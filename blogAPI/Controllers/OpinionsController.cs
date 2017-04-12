@@ -19,6 +19,24 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
 
+        [HttpGet("comments/{Id}/{type}")]
+        public async Task<IActionResult> CommentGet(string userName, string title, int Id, string type)
+        {
+            try
+            {
+                var result = await _opinionsRepository.GetAllCommentOpinionsAsync(type, userName, title, Id);
+
+                if (result != null)
+                    return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting all comment opinions\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost("comments/{Id}/{type}/{author}")]
         public async Task<IActionResult> CommentPost(string userName, string title, int Id, string type, string author)
         {
