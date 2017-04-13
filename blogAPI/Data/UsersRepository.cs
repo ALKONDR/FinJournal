@@ -141,7 +141,7 @@ namespace blogAPI.Data
         /// <param name="following">userName to follow</param>
         /// <param name="follower">follower</param>
         /// <returns>if follower was added</returns>
-        public async Task<bool> AddFollowerAsync(string following, string follower)
+        public async Task<bool> AddFollowerAsync(string follower, string following)
         {
             try
             {
@@ -162,6 +162,37 @@ namespace blogAPI.Data
             catch (Exception e)
             {
                 _logger.LogError($"Error while following\n {e.Message}");
+            }
+
+            return false;
+        }
+        /// <summary>
+        /// removes follower
+        /// </summary>
+        /// <param name="follower">follower to remove</param>
+        /// <param name="following">following user</param>
+        /// <returns>if the follower was removed</returns>
+        public async Task<bool> RemoveFollowerAsync(string follower, string following)
+        {
+            try
+            {
+                var userFollowing = await GetUserByUserNameAsync(following);
+                var userFollower = await GetUserByUserNameAsync(follower);
+
+                if (userFollowing == null || userFollower == null)
+                    return false;
+
+                userFollowing.Followers.Remove(follower);
+                userFollower.Following.Remove(following);
+
+                bool updateFollowing = await UpdateUserAsync(following, userFollowing);
+                bool updateFollower = await UpdateUserAsync(follower, userFollower);
+
+                return updateFollowing && updateFollower;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while removing follower\n {e.Message}");
             }
 
             return false;

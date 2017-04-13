@@ -112,12 +112,28 @@ namespace blogAPI.Controllers
         {
             try
             {
-                if (await _usersRepository.AddFollowerAsync(following, follower))
+                if (await _usersRepository.AddFollowerAsync(follower, following))
                     return Ok();
             }
             catch (Exception e)
             {
                 _logger.LogError($"Error while adding a follower\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpDelete("{follower}/unfollow/{following}")]
+        public async Task<IActionResult> Unfollow(string follower, string following)
+        {
+            try
+            {
+                if (await _usersRepository.RemoveFollowerAsync(follower, following))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while removing follower\n {e.Message}");
             }
 
             return BadRequest();
