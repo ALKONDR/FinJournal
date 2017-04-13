@@ -16,6 +16,12 @@ namespace blogAPI.Data
             _storiesRepository = storiesRepository;
             _logger = logger;
         }
+        /// <summary>
+        /// returns all the comments of the story with the given author and title
+        /// </summary>
+        /// <param name="userName">author's userName</param>
+        /// <param name="title">title of the story</param>
+        /// <returns>all the story's comments</returns>
         public async Task<ICollection<Comment>> GetAllCommentsAsync(string userName, string title)
         {
             try
@@ -31,13 +37,20 @@ namespace blogAPI.Data
 
             return null;
         }
-        public async Task<Comment> GetCommentByIdAsync(string userName, string title, int Id)
+        /// <summary>
+        /// returns a comment with the given id
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Comment> GetCommentByIdAsync(string userName, string title, int id)
         {
             try
             {
                 Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
 
-                int index = story.Comments.FindIndex(com => com.Id == Id);
+                int index = story.Comments.FindIndex(com => com.Id == id);
 
                 if (index != -1)
                     return story.Comments[index];
@@ -49,6 +62,13 @@ namespace blogAPI.Data
 
             return null;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="title"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         public async Task<bool> AddCommentAsync(string userName, string title, Comment comment)
         {
             try
@@ -58,12 +78,10 @@ namespace blogAPI.Data
                 if (story == null)
                     return false;
                 
-                // comment.Author = userName;
-                
                 if (story.Comments.Count == 0)
                     comment.Id = story.Comments.Count;
                 else
-                    comment.Id = story.Comments[story.Comments.Count - 1].Id + 1; // last Id + 1
+                    comment.Id = story.Comments[story.Comments.Count - 1].Id + 1; // last id + 1
 
                 comment.Date = DateTime.Now;
 
@@ -78,13 +96,20 @@ namespace blogAPI.Data
 
             return false;
         }
-        public async Task<bool> DeleteCommentAsync(string userName, string title, int Id)
+        /// <summary>
+        /// deletes comment with the given id
+        /// </summary>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="id">id of the comment</param>
+        /// <returns>if the comment was deleted</returns>
+        public async Task<bool> DeleteCommentAsync(string userName, string title, int id)
         {
             try
             {
                 Story story = await _storiesRepository.GetStoryByTitleAsync(userName, title);
 
-                int index = story.Comments.FindIndex(com => com.Id == Id);
+                int index = story.Comments.FindIndex(com => com.Id == id);
 
                 if (index != -1)
                 {
@@ -101,6 +126,13 @@ namespace blogAPI.Data
 
             return false;
         }
+        /// <summary>
+        /// updates given comment
+        /// </summary>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="comment">new changed comment</param>
+        /// <returns>if the comment was updated</returns>
         public async Task<bool> UpdateCommentAsync(string userName, string title, Comment comment)
         {
             try

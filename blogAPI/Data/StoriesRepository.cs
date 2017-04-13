@@ -18,6 +18,12 @@ namespace blogAPI.Data
             _usersRepository = usersRepository;
             _logger = logger;
         }
+        /// <summary>
+        /// allow to get story by given title
+        /// </summary>
+        /// <param name="userName">userName of the author of the story</param>
+        /// <param name="title">story's title</param>
+        /// <returns>userName's story with the given title</returns>
         public async Task<Story> GetStoryByTitleAsync(string userName, string title)
         {
             try
@@ -42,6 +48,12 @@ namespace blogAPI.Data
 
             return null;
         }
+        /// <summary>
+        /// adds story to the given user
+        /// </summary>
+        /// <param name="userName">userName of the author of given story</param>
+        /// <param name="story">story to append</param>
+        /// <returns>if the story was appended</returns>
         public async Task<bool> AddStoryAsync(string userName, Story story)
         {
             try
@@ -55,18 +67,12 @@ namespace blogAPI.Data
                 if (user == null)
                     return false;
 
-                // _logger.LogDebug($"New story:\n {JsonConvert.SerializeObject(story)}\n");
-
                 // check if story with such title is already exists
                 Story sameStory = await GetStoryByTitleAsync(userName, story.Title);
                 if (sameStory != null)
                     return false;
 
-                // _logger.LogDebug($"User:\n {JsonConvert.SerializeObject(user)}\n");
-                
                 user.Stories.Add(story);
-                
-                // _logger.LogDebug($"New user:\n {JsonConvert.SerializeObject(user)}\n");
                 
                 return await _usersRepository.UpdateUserAsync(userName, user);
 
@@ -78,6 +84,11 @@ namespace blogAPI.Data
 
             return false;
         }
+        /// <summary>
+        /// return all stories of the given user
+        /// </summary>
+        /// <param name="userName">user's userName</param>
+        /// <returns>user's stories</returns>
         public async Task<IEnumerable<Story>> GetAllStoriesAsync(string userName)
         {
             try
@@ -96,6 +107,12 @@ namespace blogAPI.Data
 
             return null;
         }
+        /// <summary>
+        /// deletes user's story with the given title
+        /// </summary>
+        /// <param name="userName">userName of the author of the story</param>
+        /// <param name="title">story's title</param>
+        /// <returns>if the story was deleted</returns>
         public async Task<bool> DeleteStoryAsync(string userName, string title)
         {
             try
@@ -116,6 +133,13 @@ namespace blogAPI.Data
             }
             return false;
         }
+        /// <summary>
+        /// updates user's story with the given title
+        /// </summary>
+        /// <param name="userName">user's userName</param>
+        /// <param name="title">title of the old story</param>
+        /// <param name="story">changed story</param>
+        /// <returns>if the story was updated</returns>
         public async Task<bool> UpdateStoryAsync(string userName, string title, Story story)
         {
             try

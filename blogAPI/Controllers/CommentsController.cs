@@ -55,12 +55,12 @@ namespace blogAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete(string userName, string title, int Id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string userName, string title, int id)
         {
             try
             {
-                if (await _commentsRepository.DeleteCommentAsync(userName, title, Id))
+                if (await _commentsRepository.DeleteCommentAsync(userName, title, id))
                     return Ok();
             }
             catch (Exception e)

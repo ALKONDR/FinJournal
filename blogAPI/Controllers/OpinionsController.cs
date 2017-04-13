@@ -27,16 +27,16 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet("comments/{Id}/{opinionType}")]
+        [HttpGet("comments/{id}/{opinionType}")]
         public async Task<IActionResult> CommentGet(string userName,
                                                     string title,
-                                                    int Id,
+                                                    int id,
                                                     string opinionType)
         {
             try
             {
                 var result = await _opinionsRepository.GetAllOpinionsAsync(opinionType, COMMENT,
-                                                                            userName, title, Id);
+                                                                            userName, title, id);
 
                 if (result != null)
                     return Ok(result);
@@ -49,16 +49,16 @@ namespace blogAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPost("comments/{Id}/{opinionType}/{author}")]
+        [HttpPost("comments/{id}/{opinionType}/{author}")]
         public async Task<IActionResult> CommentPost(string userName,
                                                         string title,
-                                                        int Id,
+                                                        int id,
                                                         string opinionType,
                                                         string author)
         {
             try
             {
-                if (await _opinionsRepository.AddOpinionAsync(opinionType, COMMENT, userName, title, Id, author))
+                if (await _opinionsRepository.AddOpinionAsync(opinionType, COMMENT, userName, title, id, author))
                     return Ok();
             }
             catch (Exception e)
@@ -69,17 +69,17 @@ namespace blogAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("comments/{Id}/{opinionType}/{author}")]
+        [HttpDelete("comments/{id}/{opinionType}/{author}")]
         public async Task<IActionResult> CommentDelete(string userName,
                                                         string title,
-                                                        int Id,
+                                                        int id,
                                                         string opinionType,
                                                         string author)
         {
             try
             {
                 if (await _opinionsRepository.DeleteOpinionAsync(opinionType, COMMENT,
-                                                                        userName, title, Id, author))
+                                                                        userName, title, id, author))
                     return Ok();
             }
             catch (Exception e)

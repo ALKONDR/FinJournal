@@ -41,7 +41,7 @@ namespace blogAPI.Data
                 user.Id = new ObjectId();
 
                 await _context.Users.InsertOneAsync(user);
-                // _logger.LogInformation($"User: {JsonConvert.SerializeObject(user)} was added");
+                
                 return true;
             }
             catch (Exception e)

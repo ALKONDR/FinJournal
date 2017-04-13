@@ -26,7 +26,14 @@ namespace blogAPI.Data
             _commentsRepository = commentsRepository;
             _storiesRepository = storiesRepository;
         }
-
+        /// <summary>
+        /// method to get story or comment depends on {postType}
+        /// </summary>
+        /// <param name="postType">story or comment</param>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="id">id of the comment</param>
+        /// <returns>story or comment if they exist</returns>
         private async Task<IPostable> GetPostWithGivenType(string postType,
                                                             string userName,
                                                             string title,
@@ -50,7 +57,14 @@ namespace blogAPI.Data
 
             return null;
         }
-
+        /// <summary>
+        /// updates story or comment depends on {postType}
+        /// </summary>
+        /// <param name="postType">story or comment</param>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="post">changed story or comment</param>
+        /// <returns>if the post was updated</returns>
         private async Task<bool> UpdatePostWithGivenType(string postType,
                                                                 string userName,
                                                                 string title,
@@ -74,7 +88,15 @@ namespace blogAPI.Data
 
             return false;
         }
-
+        /// <summary>
+        /// returns all post's likes/dislikes depends on {opinionType}
+        /// </summary>
+        /// <param name="opinionType">like or dislike</param>
+        /// <param name="postType">story or comment</param>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="id">id of the comment if {postType} is comment</param>
+        /// <returns>a list of likes/dislikes</returns>
         public async Task<ICollection<Opinion>> GetAllOpinionsAsync(string opinionType,
                                                                             string postType,
                                                                             string userName,
@@ -108,11 +130,21 @@ namespace blogAPI.Data
 
             return null;
         }
+        /// <summary>
+        /// method to like or dislike post
+        /// </summary>
+        /// <param name="opinionType">like or dislike</param>
+        /// <param name="postType">story or comment</param>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="id">id if {postType} is comment</param>
+        /// <param name="author">author of the opinion</param>
+        /// <returns>if the opinion was added</returns>
         public async Task<bool> AddOpinionAsync(string opinionType,
                                                     string postType,
                                                     string userName,
                                                     string title,
-                                                    int Id,
+                                                    int id,
                                                     string author)
         {
             try
@@ -120,10 +152,11 @@ namespace blogAPI.Data
                 Opinion opinion = new Opinion(author);
                 opinion.Date = DateTime.Now;
 
+                // first we need to delete user's like/dislike if he did it before
                 var res = await DeleteOpinionAsync(opinionType == LIKE ? DISLIKE : LIKE,
-                                                    postType, userName, title, Id, opinion.Author);                
+                                                    postType, userName, title, id, opinion.Author);                
 
-                IPostable post = await GetPostWithGivenType(postType, userName, title, Id);
+                IPostable post = await GetPostWithGivenType(postType, userName, title, id);
                 
                 switch (opinionType)
                 {
@@ -151,6 +184,16 @@ namespace blogAPI.Data
 
             return false;
         }
+        /// <summary>
+        /// deletes like/dislike
+        /// </summary>
+        /// <param name="opinionType">like or dislike</param>
+        /// <param name="postType">story or comment</param>
+        /// <param name="userName">author of the story</param>
+        /// <param name="title">title of the story</param>
+        /// <param name="id">id if {postType} is comment</param>
+        /// <param name="author">author of the opinion</param>
+        /// <returns>if the opinion was deleted</returns>
         public async Task<bool> DeleteOpinionAsync(string opinionType,
                                                             string postType,
                                                             string userName,
