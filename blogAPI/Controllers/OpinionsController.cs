@@ -27,7 +27,7 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet("comments/{Id}/{opinioinType}")]
+        [HttpGet("comments/{Id}/{opinionType}")]
         public async Task<IActionResult> CommentGet(string userName,
                                                     string title,
                                                     int Id,
@@ -110,11 +110,11 @@ namespace blogAPI.Controllers
         }
 
         [HttpPost("{opinionType}/{author}")]
-        public async Task<IActionResult> StoryPost(string userName, string title, string opinioinType, string author)
+        public async Task<IActionResult> StoryPost(string userName, string title, string opinionType, string author)
         {
             try
             {
-                if (await _opinionsRepository.AddOpinionAsync(opinioinType, STORY, userName,
+                if (await _opinionsRepository.AddOpinionAsync(opinionType, STORY, userName,
                                                                 title, DEFAULT_ID, author))
                     return Ok();
             }
