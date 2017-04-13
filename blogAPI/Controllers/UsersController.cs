@@ -9,7 +9,7 @@ using blogAPI.Data;
 
 namespace blogAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController : Controller
     {
         private readonly UsersRepository _usersRepository;
@@ -105,6 +105,22 @@ namespace blogAPI.Controllers
                 _logger.LogError($"Error while updating user\n {e.Message}");
             }
             return BadRequest();
-        } 
+        }
+
+        [HttpPost("{follower}/follow/{following}")]
+        public async Task<IActionResult> Follow(string follower, string following)
+        {
+            try
+            {
+                if (await _usersRepository.AddFollowerAsync(following, follower))
+                    return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while adding a follower\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
     }
 }

@@ -135,5 +135,36 @@ namespace blogAPI.Data
             
             return false;
         }
+        /// <summary>
+        /// adds follower
+        /// </summary>
+        /// <param name="following">userName to follow</param>
+        /// <param name="follower">follower</param>
+        /// <returns>if follower was added</returns>
+        public async Task<bool> AddFollowerAsync(string following, string follower)
+        {
+            try
+            {
+                var userFollowing = await GetUserByUserNameAsync(following);
+                var userFollower = await GetUserByUserNameAsync(follower);
+
+                if (userFollowing == null || userFollower == null)
+                    return false;
+
+                userFollowing.Followers.Add(follower);
+                userFollower.Following.Add(following);
+
+                bool updateFollowing = await UpdateUserAsync(following, userFollowing);
+                bool updateFollower = await UpdateUserAsync(follower, userFollower);
+
+                return updateFollowing && updateFollower;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while following\n {e.Message}");
+            }
+
+            return false;
+        }
     }
 }
