@@ -28,6 +28,13 @@ namespace blogAPI.Data
                 return _database.GetCollection<User>("Users");
             }
         }
+        public IMongoCollection<UserCredentials> Credentials
+        {
+            get
+            {
+                return _database.GetCollection<UserCredentials>("Credentials");
+            }
+        }
         /// <summary>
         /// property to get collection of all tags
         /// </summary>
