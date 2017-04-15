@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -8,6 +9,7 @@ namespace blogAPI.Models
     {
         [BsonId]
         public ObjectId Id { get; set; }
+        [Required]
         public string UserName { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -19,5 +21,12 @@ namespace blogAPI.Models
         public List<string> Responses { get; set; } = new List<string>();
         public List<string> Bookmarks { get; set; } = new List<string>();
         public List<Tag> Tags { get; set; } = new List<Tag>();
+
+        public User(UserCredentials credentials)
+        {
+            this.Id = new ObjectId();
+            this.UserName = credentials.UserName;
+            this.Email = credentials.Email;
+        }
     }
 }

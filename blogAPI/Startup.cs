@@ -48,6 +48,7 @@ namespace blogAPI
             services.AddLogging();
 
             services.AddSingleton<UsersRepository>();
+            services.AddSingleton<CredentialsRepository>();
             services.AddSingleton<StoriesRepository>();
             services.AddSingleton<CommentsRepository>();
             services.AddSingleton<OpinionsRepository>();

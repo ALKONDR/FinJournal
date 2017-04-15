@@ -77,10 +77,10 @@ namespace blogAPI.Data
         /// <returns>user or null</returns>
         public async Task<User> GetUserByUserNameAsync(string userName)
         {
-            var filter = Builders<User>.Filter.Eq("UserName", userName);
-
             try
             {
+                var filter = Builders<User>.Filter.Eq("UserName", userName);
+                
                 return await _context.Users.Find(filter).FirstOrDefaultAsync();
             }
             catch (Exception e)
