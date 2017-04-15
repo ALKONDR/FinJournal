@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 // using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 using blogAPI.Models;
 using blogAPI.Data;

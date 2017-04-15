@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 
 using blogAPI.Models;
 
@@ -22,12 +23,14 @@ namespace blogAPI.Data
             _logger = logger;
         }
 
-        public async Task<bool> AddUserCredentials(UserCredentials credentials)
+        public async Task<bool> AddUserCredentialsAsync(UserCredentials credentials)
         {
             try
             {
                 if (credentials.Email.Equals(string.Empty) || credentials.UserName.Equals(string.Empty))
                     return false;
+
+                credentials.Id = new ObjectId();
 
                 if (await _usersRepository.AddUserAsync(new User(credentials)))
                 {
@@ -43,7 +46,7 @@ namespace blogAPI.Data
             return false;
         }
 
-        public async Task<UserCredentials> GetUserCredentials(string userName)
+        public async Task<UserCredentials> GetUserCredentialsAsync(string userName)
         {
             try
             {
