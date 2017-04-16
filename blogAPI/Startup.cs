@@ -23,20 +23,28 @@ namespace blogAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("authkey.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"authkey.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             _config = builder.Build();
         }
 
         private IConfigurationRoot _config { get; }
 
-        private const string SecretKey = "needtogetthisfromenvironment";
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+        private string SecretKey;
+        private SymmetricSecurityKey _signingKey;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_config);
 
+            // getting secret key
+            SecretKey = _config.GetSection("SecretKey").Value;
+            _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
+            // configuring MongoDB options
             services.Configure<Settings>(options =>
             {
                 options.ConnectionString = _config.GetSection("MongoConnection:ConnectionString").Value;
@@ -47,6 +55,7 @@ namespace blogAPI
 
             services.AddLogging();
 
+            // adding repositories
             services.AddSingleton<UsersRepository>();
             services.AddSingleton<CredentialsRepository>();
             services.AddSingleton<StoriesRepository>();
