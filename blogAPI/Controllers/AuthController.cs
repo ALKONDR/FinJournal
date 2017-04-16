@@ -110,7 +110,17 @@ namespace blogAPI.Controllers
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                                                                                                     .TotalSeconds);
         
+        /// <summary>
+        /// converte object to json string
+        /// </summary>
+        /// <param name="json">object to convert</param>
+        /// <returns>json string</returns>
         private string JsonToString(Object json) => JsonConvert.SerializeObject(json, _serializerSettings);
+        /// <summary>
+        /// returns access token to the given user by userName
+        /// </summary>
+        /// <param name="userName">user's userName</param>
+        /// <returns>access token with expiration time</returns>
         private Object GetAccessToken(string userName)
         {
             var claims = new[]
@@ -138,7 +148,11 @@ namespace blogAPI.Controllers
             
             return response;
         }
-        
+        /// <summary>
+        /// returns refresh token to the given user by userName
+        /// </summary>
+        /// <param name="userName">user's userName</param>
+        /// <returns>refresh token</returns>
         private string GetRefreshToken(string userName)
         {
             var claims = new[]
@@ -152,7 +166,7 @@ namespace blogAPI.Controllers
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.Add(TimeSpan.FromDays(3650)),
+                expires: DateTime.Now.Add(TimeSpan.FromDays(3650)), // 10 years is enough I guess :D
                 signingCredentials: _jwtOptions.SigningCredentials);
 
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);

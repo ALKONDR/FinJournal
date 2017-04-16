@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 using blogAPI.Models;
 using blogAPI.Data;
-using System.Security.Claims;
-using System.Security.Principal;
 
 namespace blogAPI.Controllers
 {
@@ -24,8 +22,6 @@ namespace blogAPI.Controllers
             _usersRepository = usersRepository;
             _logger = logger;
         }
-        
-        
 
         [HttpGet]
         [AllowAnonymous]
