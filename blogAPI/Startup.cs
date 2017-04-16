@@ -73,6 +73,9 @@ namespace blogAPI
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("Refresh",
+                                policy => policy.RequireClaim("TokenType", "Refresh"));
+
                 options.AddPolicy("User",
                                 policy => policy.RequireClaim("AuthorizedUser", "User"));
 

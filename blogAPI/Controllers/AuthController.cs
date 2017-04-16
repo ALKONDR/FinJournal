@@ -12,10 +12,10 @@ using blogAPI.Models;
 using blogAPI.Options;
 using blogAPI.Data;
 
-namespace WebApiJwtAuthDemo.Controllers
+namespace blogAPI.Controllers
 {
     [Route("api")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger _logger;
@@ -73,7 +73,13 @@ namespace WebApiJwtAuthDemo.Controllers
                     return BadRequest("Invalid credentials");
                 }
 
-                return Ok(GetToken(credentials.UserName));
+                var response = new 
+                {
+                    access = GetAccessToken(credentials.UserName),
+                    refresh = GetRefreshToken(credentials.UserName)
+                };
+                
+                return Ok(JsonToString(response));
             }
             catch (Exception e)
             {
@@ -83,12 +89,29 @@ namespace WebApiJwtAuthDemo.Controllers
             return BadRequest();
         }
 
+        [HttpGet("refresh")]
+        [Authorize(Policy = "Refresh")]
+        public IActionResult Refresh()
+        {
+            try
+            {
+                return Ok(JsonToString(GetAccessToken(GetClaimByName(SUB))));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while refreshing token\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
+
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                                                                                                     .TotalSeconds);
-
-        private string GetToken(string userName)
+        
+        private string JsonToString(Object json) => JsonConvert.SerializeObject(json, _serializerSettings);
+        private Object GetAccessToken(string userName)
         {
             var claims = new[]
             {
@@ -109,13 +132,32 @@ namespace WebApiJwtAuthDemo.Controllers
             // Serialize and return the response
             var response = new
             {
-                access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                accessToken = encodedJwt,
+                expiresIn = (int)_jwtOptions.ValidFor.TotalSeconds
+            };
+            
+            return response;
+        }
+        
+        private string GetRefreshToken(string userName)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userName),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
+                                                                        ClaimValueTypes.Integer64),
+                new Claim("TokenType", "Refresh")
             };
 
-            var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            // Create the JWT security token and encode it.
+            var jwt = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.Add(TimeSpan.FromDays(3650)),
+                signingCredentials: _jwtOptions.SigningCredentials);
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             
-            return json;
+            return encodedJwt;
         }
     }
 }
