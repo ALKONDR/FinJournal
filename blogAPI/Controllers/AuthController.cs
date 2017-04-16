@@ -73,31 +73,7 @@ namespace WebApiJwtAuthDemo.Controllers
                     return BadRequest("Invalid credentials");
                 }
 
-                var claims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, credentials.UserName),
-                    new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
-                                                                            ClaimValueTypes.Integer64),
-                    new Claim("AuthorizedUser", "User")
-                };
-
-                // Create the JWT security token and encode it.
-                var jwt = new JwtSecurityToken(
-                    claims: claims,
-                    expires: _jwtOptions.Expiration,
-                    signingCredentials: _jwtOptions.SigningCredentials);
-
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-                // Serialize and return the response
-                var response = new
-                {
-                    access_token = encodedJwt,
-                    expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
-                };
-
-                var json = JsonConvert.SerializeObject(response, _serializerSettings);
-                return Ok(json);
+                return Ok(GetToken(credentials.UserName));
             }
             catch (Exception e)
             {
@@ -111,5 +87,35 @@ namespace WebApiJwtAuthDemo.Controllers
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                                                                                                     .TotalSeconds);
+
+        private string GetToken(string userName)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userName),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
+                                                                        ClaimValueTypes.Integer64),
+                new Claim("AuthorizedUser", "User")
+            };
+
+            // Create the JWT security token and encode it.
+            var jwt = new JwtSecurityToken(
+                claims: claims,
+                expires: _jwtOptions.Expiration,
+                signingCredentials: _jwtOptions.SigningCredentials);
+
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            // Serialize and return the response
+            var response = new
+            {
+                access_token = encodedJwt,
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+            };
+
+            var json = JsonConvert.SerializeObject(response, _serializerSettings);
+            
+            return json;
+        }
     }
 }

@@ -9,7 +9,7 @@ using blogAPI.Data;
 namespace blogAPI.Controllers
 {
     [Route("api/users/{userName}/stories/{title}")]
-    public class OpinionsController: Controller
+    public class OpinionsController: BaseController
     {
         private const string COMMENT = "comment";
 
@@ -61,6 +61,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != author)
+                    return BadRequest();
+
                 if (await _opinionsRepository.AddOpinionAsync(opinionType, COMMENT, userName, title, id, author))
                     return Ok();
             }
@@ -82,6 +85,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != author)
+                    return BadRequest();
+
                 if (await _opinionsRepository.DeleteOpinionAsync(opinionType, COMMENT,
                                                                         userName, title, id, author))
                     return Ok();
@@ -120,6 +126,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != author)
+                    return BadRequest();
+
                 if (await _opinionsRepository.AddOpinionAsync(opinionType, STORY, userName,
                                                                 title, DEFAULT_ID, author))
                     return Ok();
@@ -138,6 +147,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != author)
+                    return BadRequest();
+
                 if (await _opinionsRepository.DeleteOpinionAsync(opinionType, STORY, userName,
                                                                     title, DEFAULT_ID, author))
                     return Ok();

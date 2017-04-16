@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Authorization;
 
 using blogAPI.Models;
 using blogAPI.Data;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace blogAPI.Controllers
 {
     [Route("api/users")]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly UsersRepository _usersRepository;
         
@@ -23,19 +25,21 @@ namespace blogAPI.Controllers
             _logger = logger;
         }
         
+        
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             try
-            {
-                var result = await _usersRepository.GetAllUsersAsync();
-                return Ok(_usersRepository.GetAllUsersAsync());
+            {   
+                return Ok(await _usersRepository.GetAllUsersAsync());
             }
             catch (Exception e)
             {
                 _logger.LogError($"Error while getting all users\n {e.Message}");
             }
+
             return BadRequest();
         }
         
@@ -96,12 +100,15 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != userName)
+                    return BadRequest();
+
                 var userFromDB = await _usersRepository.GetUserByUserNameAsync(userName);
 
-                if (userFromDB != null)
-                    user.Id = userFromDB.Id;
-                else
+                if (userFromDB == null)
                     return BadRequest();
+
+                user.Id = userFromDB.Id;    
 
                 if (await _usersRepository.UpdateUserAsync(userName, user))
                     return Ok();
@@ -119,8 +126,13 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (!GetClaimByName(SUB).Equals(follower))
+                    return BadRequest();
+
                 if (await _usersRepository.AddFollowerAsync(follower, following))
                     return Ok();
+
+                _logger.LogDebug("and there");
             }
             catch (Exception e)
             {
@@ -136,6 +148,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != follower)
+                    return BadRequest();
+
                 if (await _usersRepository.RemoveFollowerAsync(follower, following))
                     return Ok();
             }

@@ -10,7 +10,7 @@ using blogAPI.Data;
 namespace blogAPI.Controllers
 {
     [Route("api/users/{userName}/stories")]
-    public class StoriesController : Controller
+    public class StoriesController : BaseController
     {
         private readonly StoriesRepository _storiesRepository;
         
@@ -28,6 +28,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != userName)
+                    return BadRequest();
+
                 if (await _storiesRepository.AddStoryAsync(userName, story))
                     return Ok();
             }
@@ -60,6 +63,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != userName)
+                    return BadRequest();
+
                 if (await _storiesRepository.DeleteStoryAsync(userName, title))
                     return Ok();
             }
@@ -97,6 +103,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != userName)
+                    return BadRequest();
+            
                 if (await _storiesRepository.UpdateStoryAsync(userName, title, story))
                     return Ok();
             }

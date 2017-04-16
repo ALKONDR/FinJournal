@@ -10,7 +10,7 @@ using blogAPI.Data;
 namespace blogAPI.Controllers
 {
     [Route("api/users/{userName}/stories/{title}/comments")]
-    public class CommentsController: Controller
+    public class CommentsController: BaseController
     {
         private readonly CommentsRepository _commentsRepository;
 
@@ -47,6 +47,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != comment.Author)
+                    return BadRequest();
+
                 if (await _commentsRepository.AddCommentAsync(userName, title, comment))
                     return Ok();
             }
@@ -64,6 +67,9 @@ namespace blogAPI.Controllers
         {
             try
             {
+                if (GetClaimByName(SUB) != (await _commentsRepository.GetCommentByIdAsync(userName, title, id)).Author)
+                    return BadRequest();
+
                 if (await _commentsRepository.DeleteCommentAsync(userName, title, id))
                     return Ok();
             }

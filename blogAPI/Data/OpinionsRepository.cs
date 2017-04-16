@@ -153,10 +153,13 @@ namespace blogAPI.Data
                 opinion.Date = DateTime.Now;
 
                 // first we need to delete user's like/dislike if he did it before
-                var res = await DeleteOpinionAsync(opinionType == LIKE ? DISLIKE : LIKE,
+                await DeleteOpinionAsync(opinionType == LIKE ? DISLIKE : LIKE,
                                                     postType, userName, title, id, opinion.Author);                
 
                 IPostable post = await GetPostWithGivenType(postType, userName, title, id);
+
+                if (post == null)
+                    return false;
                 
                 switch (opinionType)
                 {
@@ -204,6 +207,9 @@ namespace blogAPI.Data
             try
             {
                 var post = await GetPostWithGivenType(postType, userName, title, id);
+
+                if (post == null)
+                    return false;
 
                 int deleteCount = -1;
 
