@@ -62,10 +62,14 @@ namespace blogAPI
                 config.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddAuthorization();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("User",
+                                policy => policy.RequireClaim("AuthorizedUser", "User"));
 
-            // Get options from app settings
-            var jwtAppSettingOptions = _config.GetSection(nameof(JwtIssuerOptions));
+                options.AddPolicy("Admin",
+                                policy => policy.RequireClaim("AuthorizedUser", "Admin"));
+            });
 
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
@@ -80,12 +84,11 @@ namespace blogAPI
             loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            var jwtAppSettingOptions = _config.GetSection(nameof(JwtIssuerOptions));
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
+                ValidateIssuer = false,
 
-                ValidateAudience = true,
+                ValidateAudience = false,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,

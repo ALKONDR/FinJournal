@@ -62,7 +62,7 @@ namespace WebApiJwtAuthDemo.Controllers
             try
             {
                 if (credentials.UserName.Equals(string.Empty))
-                return BadRequest();
+                    return BadRequest();
             
                 var identity = await _credentialsRepository.GetUserCredentialsAsync(credentials.UserName);
                 
@@ -77,7 +77,8 @@ namespace WebApiJwtAuthDemo.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, credentials.UserName),
                     new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
-                                                                            ClaimValueTypes.Integer64)
+                                                                            ClaimValueTypes.Integer64),
+                    new Claim("AuthorizedUser", "User")
                 };
 
                 // Create the JWT security token and encode it.

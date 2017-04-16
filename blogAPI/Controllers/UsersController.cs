@@ -24,6 +24,7 @@ namespace blogAPI.Controllers
         }
         
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             try
@@ -39,6 +40,7 @@ namespace blogAPI.Controllers
         }
         
         [HttpPost]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Post([FromBody]User user)
         {
             try
@@ -57,6 +59,7 @@ namespace blogAPI.Controllers
         }
         
         [HttpGet("{userName}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get(string userName)
         {
             try
@@ -72,6 +75,7 @@ namespace blogAPI.Controllers
         }
         
         [HttpDelete("{userName}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> Delete(string userName)
         {
             try
@@ -87,6 +91,7 @@ namespace blogAPI.Controllers
         }
         
         [HttpPut("{userName}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> Put(string userName, [FromBody]User user)
         {
             try
@@ -109,6 +114,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpPost("{follower}/follow/{following}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> Follow(string follower, string following)
         {
             try
@@ -125,6 +131,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpDelete("{follower}/unfollow/{following}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> Unfollow(string follower, string following)
         {
             try

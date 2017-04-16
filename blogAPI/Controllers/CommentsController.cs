@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using System;
 
 using blogAPI.Models;
@@ -22,6 +23,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Get(string userName, string title)
         {
             try
@@ -40,6 +42,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> Post(string userName, string title, [FromBody]Comment comment)
         {
             try
@@ -56,6 +59,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> Delete(string userName, string title, int id)
         {
             try

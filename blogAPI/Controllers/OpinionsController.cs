@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using System;
 
 using blogAPI.Data;
@@ -28,6 +29,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpGet("comments/{id}/{opinionType}")]
+        [AllowAnonymous]
         public async Task<IActionResult> CommentGet(string userName,
                                                     string title,
                                                     int id,
@@ -50,6 +52,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpPost("comments/{id}/{opinionType}/{author}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> CommentPost(string userName,
                                                         string title,
                                                         int id,
@@ -70,6 +73,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpDelete("comments/{id}/{opinionType}/{author}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> CommentDelete(string userName,
                                                         string title,
                                                         int id,
@@ -91,6 +95,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpGet("{opinionType}")]
+        [AllowAnonymous]
         public async Task<IActionResult> StoryGet(string userName, string title, string opinionType)
         {
             try
@@ -110,6 +115,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpPost("{opinionType}/{author}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> StoryPost(string userName, string title, string opinionType, string author)
         {
             try
@@ -127,6 +133,7 @@ namespace blogAPI.Controllers
         }
 
         [HttpDelete("{opinionType}/{author}")]
+        [Authorize(Policy = "User")]
         public async Task<IActionResult> StoryDelete(string userName, string title, string opinionType, string author)
         {
             try
