@@ -11,12 +11,19 @@ namespace blogAPI.Data
 {
     public class StoriesRepository
     {
+        private const double AVG_WORDS_PER_MINUTE = 275.0;
         private readonly ILogger _logger;
         private readonly UsersRepository _usersRepository;
         public StoriesRepository(UsersRepository usersRepository, ILogger<StoriesRepository> logger)
         {
             _usersRepository = usersRepository;
             _logger = logger;
+        }
+        private int CountReadingTime(string content)
+        {
+            string[] words = content.Split(' ');
+
+            return (int)(Convert.ToDouble(words.Length) / AVG_WORDS_PER_MINUTE + 0.5);
         }
         /// <summary>
         /// allow to get story by given title
@@ -61,6 +68,7 @@ namespace blogAPI.Data
                 story.Id = new ObjectId();
                 story.Date = DateTime.Now;
                 story.Author = userName;
+                story.ReadingTime = CountReadingTime(story.Content);
 
                 User user = await _usersRepository.GetUserByUserNameAsync(userName);
                 

@@ -6,6 +6,12 @@ module.exports = {
       {
         "devDependencies": true
       }
+    ],
+    "react/prefer-stateless-function": [
+      0,
+      {
+        
+      }
     ]
   },
   "extends": "airbnb",

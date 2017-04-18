@@ -1,7 +1,15 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-ReactDom.render(
-  <h1>This is fucking react project, bitch!</h1>,
-  document.getElementById('root'),
-);
+class App extends React.Component {
+  render() {
+    return (
+      <h1>{this.props.message}</h1>
+    );
+  }
+}
+App.propTypes = {
+  message: React.PropTypes.string.isRequired,
+};
+
+ReactDom.render(<App message="" />, document.getElementById('root'));
