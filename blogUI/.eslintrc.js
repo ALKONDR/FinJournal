@@ -9,10 +9,9 @@ module.exports = {
     ],
     "react/prefer-stateless-function": [
       0,
-      {
-        
-      }
-    ]
+      {}
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   },
   "extends": "airbnb",
   "plugins": [

@@ -2,10 +2,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
 module.exports = {
-  entry: './src/app.jsx',
+  entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js'
+    filename: 'index.bundle.js'
   },
   module: {
     rules: [
@@ -13,6 +13,10 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ['babel-loader', 'eslint-loader']
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },

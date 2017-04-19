@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
-import api from './utils/api';
+import api from '../utils/api';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,20 +8,23 @@ class App extends React.Component {
     this.state = { message: this.props.message };
     api.login('username', 'youwillnotpass');
   }
+
   componentDidMount() {
     api.getUsers().then((response) => {
       const user = response.data[0].userName;
       this.setState({ message: user });
     });
   }
+
   render() {
     return (
       <h1>{this.state.message}</h1>
     );
   }
 }
+
 App.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-ReactDom.render(<App message="loading..." />, document.getElementById('root'));
+module.exports = App;
