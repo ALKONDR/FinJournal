@@ -40,6 +40,15 @@ namespace blogAPI
         {
             services.AddSingleton(_config);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials() );
+            });
+
             // getting secret key
             SecretKey = _config.GetSection("SecretKey").Value;
             _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
@@ -95,6 +104,8 @@ namespace blogAPI
         {
             loggerFactory.AddConsole(_config.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseCors("CorsPolicy");
 
             var tokenValidationParameters = new TokenValidationParameters
             {
