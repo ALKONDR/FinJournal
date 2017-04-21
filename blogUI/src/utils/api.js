@@ -1,5 +1,3 @@
-/* eslint no-console: ["error", { allow: ["log"] }] */
-
 import axios from 'axios';
 import qs from 'qs';
 

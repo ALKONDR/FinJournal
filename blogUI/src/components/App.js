@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Header from './Header';
 
 class App extends React.Component {
@@ -9,9 +8,5 @@ class App extends React.Component {
     );
   }
 }
-
-App.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
 module.exports = App;

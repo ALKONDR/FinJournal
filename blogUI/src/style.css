@@ -18,6 +18,7 @@
   width: 20px;
   content: url('./icons/search.png');
   padding: 7px;
+  cursor: pointer;
 }
 
 .searchInput {
@@ -25,12 +26,20 @@
   /*border-radius: 15%;*/
   display: block;
   margin: 0;
-  width: 100%;
   font-family: sans-serif;
   font-size: 18px;
   appearance: none;
   box-shadow: none;
   border-radius: none;
+}
+
+.inputOpened {
+  width: 150px;
+}
+
+.inputClosed {
+  width: 0px;
+  display: none;
 }
 
 .search {
