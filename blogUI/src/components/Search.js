@@ -13,16 +13,16 @@ class Search extends React.Component {
   }
 
   toggleInput() {
-    this.props.headerState.opened = !this.props.headerState.opened;
+    this.props.headerState.inputOpened = !this.props.headerState.inputOpened;
   }
 
   render() {
-    const { opened } = this.props.headerState;
+    const { inputOpened } = this.props.headerState;
     return (
       <div className="search">
         <input
           type="text"
-          className={opened ? 'searchInput inputOpened' : 'searchInput inputClosed'}
+          className={inputOpened ? 'searchInput inputOpened' : 'searchInput inputClosed'}
           placeholder="search"
         />
         <img
@@ -38,7 +38,7 @@ class Search extends React.Component {
 
 Search.propTypes = {
   headerState: PropTypes.shape({
-    opened: PropTypes.bool.isRequired,
+    inputOpened: PropTypes.bool.isRequired,
   }).isRequired,
 };
 

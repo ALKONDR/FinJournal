@@ -6,7 +6,9 @@ axios.defaults.headers.common.Authorization = 'Bearer ' + window.localStorage.ge
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 module.exports = {
-  userLoggedIn: false,
+  get userLoggedIn() {
+    return window.localStorage.getItem('username') !== null;
+  },
 
   getUsers() {
     return axios.get('/users');

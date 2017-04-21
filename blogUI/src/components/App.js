@@ -1,10 +1,15 @@
 import React from 'react';
 import Header from './Header';
+import LoginState from './LoginState';
+import LoginLayout from './LoginLayout';
 
 class App extends React.Component {
   render() {
     return (
-      <Header />
+      <div>
+        <Header loginState={LoginState} />
+        <LoginLayout loginState={LoginState} />
+      </div>
     );
   }
 }

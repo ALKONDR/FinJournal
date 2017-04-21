@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 class HeaderState {
-  @observable opened = false;
+  @observable inputOpened = false;
 }
 
 module.exports = new HeaderState();
