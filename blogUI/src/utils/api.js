@@ -76,6 +76,11 @@ module.exports = {
   },
 
   getPopularTopics() {
-    return ['Popular', 'Fintech', 'Shares', 'Investing'];
+    const topics = ['Popular', 'Fintech', 'Shares', 'Investing'];
+    if (this.userLoggedIn) {
+      topics.unshift('Subscriptions');
+    }
+
+    return topics;
   },
 };
