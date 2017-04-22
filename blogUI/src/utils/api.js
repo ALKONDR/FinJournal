@@ -74,4 +74,8 @@ module.exports = {
   addArticle(username, story) {
     return axios.post(`users/${username}/stories`, story);
   },
+
+  getPopularTopics() {
+    return ['Popular', 'Fintech', 'Shares', 'Investing'];
+  },
 };
