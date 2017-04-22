@@ -12,6 +12,7 @@
   flex-direction: row;
   align-items: center;
   background: white;
+  z-index: 5;
 }
 
 .searchIcon {
@@ -55,6 +56,7 @@
   position: relative;
   right: 10px;
   margin: 15px;
+  cursor: pointer;
 }
 
 .headerLayout {
@@ -118,13 +120,114 @@
 
 .navEl {
   margin-left: 30px;
+  cursor: pointer;
 }
 
 .previewContainer {
   width: 100%;
+  border: 1px solid black;
+  margin-bottom: 25px;
 }
 
 .previewHeader {
   width: 100%;
-  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 50px;
+  border-bottom: 1px outset black;
+  padding-left: 5px;
+}
+
+.previewUserAvatar {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  content: url(./icons/defaultUser.png);
+  left: 10px;
+}
+
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.previewAuthor {
+  height: 20px;
+  line-height: 15px;
+  top: 0px;
+  font-style: italic;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.previewDateAndReadingTime {
+  display: flex;
+  flex-direction: row;
+  font-size: 13px;
+  opacity: 0.7;
+  height: 20px;
+}
+
+.previewDate, .readingTime {
+  margin: 0px;
+  padding-right: 5px;
+}
+
+.previewContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.previewCaption {
+  margin: 5px;
+  cursor: pointer;
+}
+
+.previewDescription {
+  margin: 5px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.previewImage {
+  content: url(./icons/defaultArticle.png);
+  width: 100%;
+}
+
+.previewFooter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  margin-left: 10px;
+}
+
+.likeImg, .dislikeImg, .commentsImg {
+  height: 20px;
+  width: 20px;
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+.likeImg {
+  content: url(./icons/like.png);
+}
+
+.dislikeImg {
+  content: url(./icons/dislike.png);
+}
+
+.commentsImg {
+  content: url(./icons/comments.png);
+}
+
+.previewNumbs {
+  margin-left: 5px;
 }

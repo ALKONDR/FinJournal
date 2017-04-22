@@ -10,9 +10,9 @@ class Preview extends React.Component {
 
           <div className="previewInfo">
 
-            <h5 className="previewAuthor">
+            <p className="previewAuthor">
               {this.props.previewData.username}
-            </h5>
+            </p>
 
             <div className="previewDateAndReadingTime">
               <p className="previewDate">
