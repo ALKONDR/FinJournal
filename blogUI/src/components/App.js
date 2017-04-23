@@ -5,18 +5,20 @@ import LoginState from './LoginState';
 import LoginLayout from './LoginLayout';
 import Content from './Content';
 
-// const Router = ReactRouter.BrowerRouter;
-// const Route = ReactRouter.Route;
+const Router = require('react-router-dom').BrowserRouter;
+const Route = require('react-router-dom').Route;
 
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <Header loginState={LoginState} />
-        <LoginLayout loginState={LoginState} />
+      <Router>
+        <div>
+          <Header loginState={LoginState} />
+          <LoginLayout loginState={LoginState} />
 
-        <Content />
-      </div>
+          <Route exact path="/" component={Content} />
+        </div>
+      </Router>
     );
   }
 }

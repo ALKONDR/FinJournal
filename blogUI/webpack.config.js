@@ -5,7 +5,8 @@ module.exports = {
   entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js'
+    filename: 'index.bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -29,7 +30,8 @@ module.exports = {
     compress: true,
     port: 8080,
     stats: 'errors-only',
-    open: true
+    open: true,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
