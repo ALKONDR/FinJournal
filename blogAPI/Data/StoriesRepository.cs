@@ -14,9 +14,13 @@ namespace blogAPI.Data
         private const double AVG_WORDS_PER_MINUTE = 275.0;
         private readonly ILogger _logger;
         private readonly UsersRepository _usersRepository;
-        public StoriesRepository(UsersRepository usersRepository, ILogger<StoriesRepository> logger)
+        private readonly TagsRepository _tagsRepository;
+        public StoriesRepository(UsersRepository usersRepository,
+                                    ILogger<StoriesRepository> logger,
+                                    TagsRepository tagsRepository)
         {
             _usersRepository = usersRepository;
+            _tagsRepository = tagsRepository;
             _logger = logger;
         }
         private int CountReadingTime(string content)
@@ -81,8 +85,16 @@ namespace blogAPI.Data
                     return false;
 
                 user.Stories.Add(story);
+
+                bool tagsAdded = true;
+
+                foreach(string tag in story.Tags)
+                {
+                    var res = await _tagsRepository.AddStoryInTagAsync(userName, story.Title, tag);
+                    tagsAdded = tagsAdded && res;
+                }
                 
-                return await _usersRepository.UpdateUserAsync(userName, user);
+                return await _usersRepository.UpdateUserAsync(userName, user) && tagsAdded;
 
             }
             catch (Exception e)

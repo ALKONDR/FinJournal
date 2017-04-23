@@ -65,6 +65,7 @@ namespace blogAPI
             services.AddLogging();
 
             // adding repositories
+            services.AddSingleton<TagsRepository>();
             services.AddSingleton<UsersRepository>();
             services.AddSingleton<CredentialsRepository>();
             services.AddSingleton<StoriesRepository>();
