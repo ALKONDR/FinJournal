@@ -77,10 +77,6 @@ module.exports = {
 
   getPopularTopics() {
     const topics = ['Popular', 'Fintech', 'Shares', 'Investing'];
-    if (this.userLoggedIn) {
-      topics.unshift('Subscriptions');
-    }
-
     return topics;
   },
 };

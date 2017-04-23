@@ -231,3 +231,8 @@
 .previewNumbs {
   margin-left: 5px;
 }
+
+.activeNavLink {
+  font-weight: bold;
+  font-style: italic;
+}
