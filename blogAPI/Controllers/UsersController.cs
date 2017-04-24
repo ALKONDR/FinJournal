@@ -157,5 +157,21 @@ namespace blogAPI.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("subscriptions")]
+        [Authorize(Policy = "User")]
+        public async Task<IActionResult> GetUserSubscriptions()
+        {
+            try
+            {
+                return Ok(await _usersRepository.GetUserNewsAsync(GetClaimByName(SUB)));
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting user's subscriptions\n {e.Message}");
+            }
+
+            return BadRequest();
+        }
     }
 }

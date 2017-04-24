@@ -19,7 +19,7 @@ namespace blogAPI.Data
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
-        protected readonly DBContext _context;
+        private readonly DBContext _context;
         private readonly ILogger _logger;
         public UsersRepository(IOptions<Settings> settings, ILogger<UsersRepository> logger)
         {
@@ -196,6 +196,35 @@ namespace blogAPI.Data
             }
 
             return false;
+        }
+
+        public async Task<IEnumerable<Story>> GetUserNewsAsync(string userName)
+        {
+            try
+            {
+                List<Story> news = new List<Story>();
+
+                User user = await GetUserByUserNameAsync(userName);
+
+                if (user == null)
+                    return null;
+
+                foreach(string following in user.Following)
+                {
+                    foreach(Story story in (await GetUserByUserNameAsync(following)).Stories)
+                    {
+                        news.Add(story);
+                    }
+                }
+
+                return news;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error while getting user's news\n {e.Message}");
+            }
+
+            return null;
         }
     }
 }
