@@ -60,7 +60,23 @@ class Content extends React.Component {
     if (!this.props.match.params.topic) {
       this.state.previews = api.getPopularArticles();
     } else {
-      console.log(data);
+      this.state.previews = data.map((element) => {
+        const preview = {
+          username: element.author,
+          date: {
+            day: Date(element.date).split(' ')[2],
+            month: Date(element.date).split(' ')[1],
+          },
+          readingTime: element.readingTime,
+          caption: element.title,
+          description: element.description || 'no description provided',
+          likes: element.likes.length,
+          dislikes: element.dislikes.length,
+          comments: element.comments.length,
+        };
+
+        return preview;
+      });
     }
   }
 

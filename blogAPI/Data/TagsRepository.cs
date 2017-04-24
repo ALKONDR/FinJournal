@@ -19,9 +19,10 @@ namespace blogAPI.Data
         /// <summary>
         /// Our MongoDB Context to work
         /// </summary>
-        protected readonly DBContext _context;
+        private readonly DBContext _context;
         private readonly ILogger _logger;
-        public TagsRepository(IOptions<Settings> settings, ILogger<TagsRepository> logger)
+        public TagsRepository(IOptions<Settings> settings,
+                                ILogger<TagsRepository> logger)
         {
             _context = new DBContext(settings);
             _logger = logger;

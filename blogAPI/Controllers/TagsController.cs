@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 using blogAPI.Data;
+using blogAPI.Models;
 
 namespace blogAPI.Controllers
 {
@@ -13,12 +15,17 @@ namespace blogAPI.Controllers
     public class TagsController : BaseController
     {
         private readonly TagsRepository _tagsRepository;
-        
+
+        private readonly StoriesRepository _storiesRepository;
+
         private readonly ILogger _logger;
-        
-        public TagsController(ILogger<TagsController> logger, TagsRepository tagsRepository)
+
+        public TagsController(ILogger<TagsController> logger,
+                                TagsRepository tagsRepository,
+                                StoriesRepository storiesRepository)
         {
             _tagsRepository = tagsRepository;
+            _storiesRepository = storiesRepository;
             _logger = logger;
         }
 
@@ -28,7 +35,16 @@ namespace blogAPI.Controllers
         {
             try
             {
-                return Ok(await _tagsRepository.GetTagAsync(tag));
+                var tagData = await _tagsRepository.GetTagAsync(tag);
+
+                if (tagData == null)
+                    return BadRequest();
+
+                var stories = new List<Story>();
+                foreach(Tuple<string, string> storyData in tagData.Stories)
+                    stories.Add(await _storiesRepository.GetStoryByTitleAsync(storyData.Item1, storyData.Item2));
+
+                return Ok(stories);
             }
             catch (Exception e)
             {
