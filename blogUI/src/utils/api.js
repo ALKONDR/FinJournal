@@ -1,6 +1,10 @@
 import axios from 'axios';
 import qs from 'qs';
 
+axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('accessToken') || ''}`;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
 module.exports = {
   setDefaults() {
     axios.defaults.baseURL = 'http://localhost:5000/api';

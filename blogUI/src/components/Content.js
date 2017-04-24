@@ -35,7 +35,7 @@ class Content extends React.Component {
               if (refreshed) {
                 api.getSubscriptions()
                   .then((response) => {
-                    if ((response.status >= 200) && (response.status < 300)) {
+                    if (response.status >= 200 && response.status < 300) {
                       this.setPreviews(response.status === 204 ? [] : response.data);
                     }
                   });
@@ -50,15 +50,17 @@ class Content extends React.Component {
         .then((response) => {
           this.setPreviews(response.status === 204 ? [] : response.data);
         });
+    } else {
+      this.setPreviews();
     }
   }
 
   setPreviews(data) {
-    console.log(data);
+    this.state.previews.splice(0, this.state.previews.length);
     if (!this.props.match.params.topic) {
       this.state.previews = api.getPopularArticles();
     } else {
-      this.state.previews = [];
+      console.log(data);
     }
   }
 
@@ -67,7 +69,10 @@ class Content extends React.Component {
     return (
       <div className="content">
         <Nav />
-        {this.state.previews.map(preview => <Preview previewData={preview} />)}
+        { this.state.previews.length > 0 ?
+            this.state.previews.map(preview => <Preview previewData={preview} />) :
+            <div>No content</div>
+        }
       </div>
     );
   }
