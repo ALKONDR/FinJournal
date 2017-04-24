@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
@@ -11,8 +13,6 @@ class Content extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('topic: ', this.props.match.params.topic);
-
     this.state = {
       previews: !this.props.match.params.topic ? api.getPopularArticles() : [],
     };
@@ -25,24 +25,27 @@ class Content extends React.Component {
     if (this.props.match.params.topic === 'subscriptions') {
       api.getSubscriptions()
         .then((response) => {
-          if (response.status === 401) {
-            api.refresh()
-              .then((refreshed) => {
-                console.log('refresh: ', refreshed);
-                if (refreshed) {
-                  api.getSubscriptions()
-                    .then((res) => {
-                      this.setPreviews(res.status === 204 ? [] : response.data);
-                    });
-                } else {
-                  LoginState.userLoggedIn = false;
-                }
-              });
-          } else {
+          if (response.status >= 200 && response.status < 300) {
             this.setPreviews(response.status === 204 ? [] : response.data);
           }
+        })
+        .catch(() => {
+          api.refreshToken()
+            .then((refreshed) => {
+              if (refreshed) {
+                api.getSubscriptions()
+                  .then((response) => {
+                    if ((response.status >= 200) && (response.status < 300)) {
+                      this.setPreviews(response.status === 204 ? [] : response.data);
+                    }
+                  });
+              } else {
+                LoginState.userLoggedIn = false;
+              }
+            })
+            .catch((error) => { console.log(error); });
         });
-    } else if (this.props.match.params.topic !== '') {
+    } else if (this.props.match.params.topic) {
       api.getArticlesByTag(this.props.match.params.topic)
         .then((response) => {
           this.setPreviews(response.status === 204 ? [] : response.data);
