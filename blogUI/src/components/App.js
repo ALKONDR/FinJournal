@@ -1,5 +1,4 @@
 import React from 'react';
-// import ReactRouter from 'react-router-dom';
 import Header from './Header';
 import LoginState from './LoginState';
 import LoginLayout from './LoginLayout';
@@ -7,6 +6,7 @@ import Content from './Content';
 
 const Router = require('react-router-dom').BrowserRouter;
 const Route = require('react-router-dom').Route;
+const Switch = require('react-router-dom').Switch;
 
 class App extends React.Component {
   render() {
@@ -16,7 +16,10 @@ class App extends React.Component {
           <Header loginState={LoginState} />
           <LoginLayout loginState={LoginState} />
 
-          <Route exact path="/" component={Content} />
+          <Switch>
+            <Route exact path="/" component={Content} />
+            <Route exact path="/topic/:topic" component={Content} />
+          </Switch>
         </div>
       </Router>
     );

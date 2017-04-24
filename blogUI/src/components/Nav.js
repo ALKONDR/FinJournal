@@ -16,11 +16,11 @@ class Nav extends React.Component {
   }
 
   render() {
-    if (this.state.popularTopics[0] !== 'Subscriptions' && LoginState.userLoggedIn) {
-      this.state.popularTopics.unshift('Subscriptions');
+    if (this.state.popularTopics[0] !== 'subscriptions' && LoginState.userLoggedIn) {
+      this.state.popularTopics.unshift('subscriptions');
     }
 
-    if (this.state.popularTopics[0] === 'Subscriptions' && !LoginState.userLoggedIn) {
+    if (this.state.popularTopics[0] === 'subscriptions' && !LoginState.userLoggedIn) {
       this.state.popularTopics.splice(0, 1);
     }
 
@@ -28,7 +28,11 @@ class Nav extends React.Component {
       <ul className="nav">
         {this.state.popularTopics.map(topic => (
           <li key={topic} className="navEl">
-            <NavLink exact activeClassName="activeNavLink" to={`/topic/${topic}`} >
+            <NavLink
+              exact
+              activeClassName="activeNavLink"
+              to={topic === 'popular' ? '/' : `/topic/${topic}`}
+            >
               {topic}
             </NavLink>
           </li>
