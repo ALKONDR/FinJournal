@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ArticleView from './ArticleView';
-import api from '../utils/api';
+// import api from '../utils/api';
 
 class ArticleContentController extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class ArticleContentController extends React.Component {
       likes: [],
       dislikes: [],
       comments: [],
-    }
+    };
   }
 
   componentDidMount() {
@@ -28,7 +29,7 @@ class ArticleContentController extends React.Component {
 
   render() {
     return (
-      <ArticleView articleData={this.state.articleData}/>
+      <ArticleView articleData={this.state.articleData} />
     );
   }
 }
@@ -36,10 +37,10 @@ class ArticleContentController extends React.Component {
 ArticleContentController.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      username: PropTypes.string,
-      caption: PropTypes.string,
-    }),
-  }),
+      username: PropTypes.string.isRequired,
+      caption: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 module.exports = ArticleView;
