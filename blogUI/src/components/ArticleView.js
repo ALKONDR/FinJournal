@@ -18,7 +18,7 @@ class ArticleView extends React.Component {
                 Follow
               </button>
             </div>
-            <p>
+            <p className="articleAuthorDescription">
               Account description
             </p>
             <div className="previewDateAndReadingTime">

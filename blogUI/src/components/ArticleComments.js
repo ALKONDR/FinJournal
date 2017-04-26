@@ -8,8 +8,13 @@ class ArticleComments extends React.Component {
   render() {
     return (
       <div className="articleComments">
-        <input type="text" placeholder="Write your comment..." />
-        {this.props.comments.map(comment => <Comment comment={comment} />)}
+        <h2 className="commentTitle">
+          Comments
+        </h2>
+        <textarea type="text" placeholder="Write your comment..." className="commentInput" />
+        <div className="commentsContainer">
+          {this.props.comments.map(comment => <Comment comment={comment} />)}
+        </div>
       </div>
     );
   }

@@ -59,7 +59,7 @@ Preview.propTypes = {
     username: PropTypes.string.isRequired,
 
     date: PropTypes.shape({
-      day: PropTypes.string.isRequired,
+      day: PropTypes.number.isRequired,
       month: PropTypes.string.isRequired,
     }).isRequired,
 
