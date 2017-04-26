@@ -1,25 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ArticleView from './ArticleView';
+// import ArticleView from './ArticleView';
 import api from '../utils/api';
 
 class ArticleContentController extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state.articleData = {
-      username: '',
-      title: '',
-      date: {
-        day: 0,
-        Month: '',
+    this.state = {
+      articleData: {
+        username: '',
+        caption: '',
+        date: {
+          day: 0,
+          Month: '',
+        },
+        readingTime: 0,
+        description: '',
+        likes: [],
+        dislikes: [],
+        comments: [],
       },
-      readingTime: 0,
-      caption: '',
-      description: '',
-      likes: [],
-      dislikes: [],
-      comments: [],
     };
     console.log(this.props.match);
   }
@@ -31,13 +32,22 @@ class ArticleContentController extends React.Component {
       });
   }
 
+  componentWillReceiveProps() {
+    console.log(this.props);
+  }
+
   render() {
     console.log('I am here');
     return (
       <div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         {'Here should be article page'}
       </div>
-      // <ArticleView articleData={this.state.articleData} />
     );
   }
 }
@@ -51,4 +61,4 @@ ArticleContentController.propTypes = {
   }).isRequired,
 };
 
-module.exports = ArticleView;
+module.exports = ArticleContentController;

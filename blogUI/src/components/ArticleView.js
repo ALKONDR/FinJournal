@@ -2,15 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class ArticleView extends React.Component {
+  componentWillReceiveProps() {
+    console.log('article data have to be rendered here');
+    console.log(this.props.articleData);
+  }
   render() {
-    console.log('hey bitch');
     return (
       <div className="articleContainer">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
         <h2 className="articleCaption">
-          {this.props.articleData.caption}
+          {JSON.stringify(this.props)}
         </h2>
         <p className="articleDescription">
-          {this.props.articleData.description}
+          {'description'}
         </p>
       </div>
     );

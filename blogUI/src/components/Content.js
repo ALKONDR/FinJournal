@@ -3,12 +3,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Nav from './Nav';
 import Preview from './Preview';
 import api from '../utils/api';
 import LoginState from './LoginState';
-import ArticleContentController from './ArticleContentController';
 
 @observer
 class Content extends React.Component {
@@ -28,6 +26,7 @@ class Content extends React.Component {
   }
 
   componentWillReceiveProps() {
+    console.log(this.props.match);
     this.getData();
   }
 
@@ -100,9 +99,6 @@ class Content extends React.Component {
   render() {
     return (
       <div className="content">
-        <Router>
-          <Route exact path="users/:username/:title" component={ArticleContentController} />
-        </Router>
         <Nav />
         { this.state.previews.length > 0 ?
             this.state.previews.map(preview => <Preview previewData={preview} />) :

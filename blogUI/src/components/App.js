@@ -20,7 +20,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Content} />
             <Route exact path="/topic/:topic" component={Content} />
-            <Route exact path="users/:username/:title" component={ArticleContentController} />
+            <Route exact path="/users/:username/:caption" component={ArticleContentController} />
           </Switch>
         </div>
       </Router>
