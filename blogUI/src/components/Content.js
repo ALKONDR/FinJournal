@@ -3,10 +3,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Nav from './Nav';
 import Preview from './Preview';
 import api from '../utils/api';
 import LoginState from './LoginState';
+import ArticleContentController from './ArticleContentController';
 
 @observer
 class Content extends React.Component {
@@ -19,6 +21,14 @@ class Content extends React.Component {
 
     this.setPreviews = this.setPreviews.bind(this);
     this.getData = this.getData.bind(this);
+  }
+
+  componentWillMount() {
+    this.getData();
+  }
+
+  componentWillReceiveProps() {
+    this.getData();
   }
 
   getData() {
@@ -56,34 +66,43 @@ class Content extends React.Component {
   }
 
   setPreviews(data) {
-    this.state.previews.splice(0, this.state.previews.length);
-    if (!this.props.match.params.topic) {
-      this.state.previews = api.getPopularArticles();
-    } else {
-      this.state.previews = data.map((element) => {
-        const preview = {
-          username: element.author,
-          date: {
-            day: Date(element.date).split(' ')[2],
-            month: Date(element.date).split(' ')[1],
-          },
-          readingTime: element.readingTime,
-          caption: element.title,
-          description: element.description || 'no description provided',
-          likes: element.likes.length,
-          dislikes: element.dislikes.length,
-          comments: element.comments.length,
-        };
+    this.setState({
+      previews: [],
+    });
 
-        return preview;
+    if (!this.props.match.params.topic) {
+      this.setState({
+        previews: api.getPopularArticles(),
+      });
+    } else {
+      this.setState({
+        previews: data.map((element) => {
+          const preview = {
+            username: element.author,
+            date: {
+              day: Date(element.date).split(' ')[2],
+              month: Date(element.date).split(' ')[1],
+            },
+            readingTime: element.readingTime,
+            caption: element.title,
+            description: element.description || 'no description provided',
+            likes: element.likes.length,
+            dislikes: element.dislikes.length,
+            comments: element.comments.length,
+          };
+
+          return preview;
+        }),
       });
     }
   }
 
   render() {
-    this.getData();
     return (
       <div className="content">
+        <Router>
+          <Route exact path="users/:username/:title" component={ArticleContentController} />
+        </Router>
         <Nav />
         { this.state.previews.length > 0 ?
             this.state.previews.map(preview => <Preview previewData={preview} />) :

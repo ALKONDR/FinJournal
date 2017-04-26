@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 class ArticleView extends React.Component {
   render() {
+    console.log('hey bitch');
     return (
       <div className="articleContainer">
         <h2 className="articleCaption">

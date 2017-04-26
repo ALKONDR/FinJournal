@@ -29,7 +29,7 @@ class Preview extends React.Component {
         </div>
 
         <div className="previewContent">
-          <Link to={`/${this.props.previewData.username}/${this.props.previewData.caption}`}>
+          <Link to={`/users/${this.props.previewData.username}/${this.props.previewData.caption}`}>
             <h2 className="previewCaption">
               {this.props.previewData.caption}
             </h2>

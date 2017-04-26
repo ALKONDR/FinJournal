@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ArticleView from './ArticleView';
-// import api from '../utils/api';
+import api from '../utils/api';
 
 class ArticleContentController extends React.Component {
   constructor(props) {
@@ -21,15 +21,23 @@ class ArticleContentController extends React.Component {
       dislikes: [],
       comments: [],
     };
+    console.log(this.props.match);
   }
 
   componentDidMount() {
-    // should get data from server here :D
+    api.getUserArticle(this.props.match.params.username, this.props.match.params.caption)
+      .then((response) => {
+        console.log(response);
+      });
   }
 
   render() {
+    console.log('I am here');
     return (
-      <ArticleView articleData={this.state.articleData} />
+      <div>
+        {'Here should be article page'}
+      </div>
+      // <ArticleView articleData={this.state.articleData} />
     );
   }
 }
