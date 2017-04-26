@@ -16,7 +16,7 @@ class ArticleView extends React.Component {
         <br />
         <br />
         <h2 className="articleCaption">
-          {JSON.stringify(this.props)}
+          {JSON.stringify(this.props.articleData)}
         </h2>
         <p className="articleDescription">
           {'description'}

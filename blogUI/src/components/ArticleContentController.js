@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import ArticleView from './ArticleView';
+import ArticleView from './ArticleView';
 import api from '../utils/api';
 
 class ArticleContentController extends React.Component {
@@ -22,32 +22,41 @@ class ArticleContentController extends React.Component {
         comments: [],
       },
     };
-    console.log(this.props.match);
-  }
 
-  componentDidMount() {
-    api.getUserArticle(this.props.match.params.username, this.props.match.params.caption)
-      .then((response) => {
-        console.log(response);
-      });
+    this.prepareDataForView = this.prepareDataForView.bind(this);
   }
 
   componentWillReceiveProps() {
-    console.log(this.props);
+    api.getUserArticle(this.props.match.params.username, this.props.match.params.caption)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          this.prepareDataForView(response.data);
+        }
+      });
+  }
+
+  prepareDataForView(data) {
+    this.setState({
+      articleData: {
+        username: data.author,
+        caption: data.title,
+        date: {
+          day: Date(data.date).split(' ')[2],
+          month: Date(data.date).split(' ')[1],
+        },
+        readingTime: data.readingTime,
+        description: data.description || 'No description provided',
+        likes: data.likes,
+        dislikes: data.dislikes,
+        comments: data.comments,
+      },
+    });
   }
 
   render() {
     console.log('I am here');
     return (
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        {'Here should be article page'}
-      </div>
+      <ArticleView articleData={this.state.articleData} />
     );
   }
 }
