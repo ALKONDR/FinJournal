@@ -47,8 +47,7 @@ namespace blogAPI.Controllers
         {
             try
             {
-                if (GetClaimByName(SUB) != comment.Author)
-                    return BadRequest();
+                comment.Author = GetClaimByName(SUB);
 
                 if (await _commentsRepository.AddCommentAsync(userName, title, comment))
                     return Ok();
