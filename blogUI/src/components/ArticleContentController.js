@@ -11,9 +11,10 @@ class ArticleContentController extends React.Component {
       articleData: {
         username: '',
         caption: '',
+        content: '',
         date: {
-          day: 0,
-          Month: '',
+          day: '',
+          month: '',
         },
         readingTime: 0,
         description: '',
@@ -26,7 +27,7 @@ class ArticleContentController extends React.Component {
     this.prepareDataForView = this.prepareDataForView.bind(this);
   }
 
-  componentWillReceiveProps() {
+  componentWillMount() {
     api.getUserArticle(this.props.match.params.username, this.props.match.params.caption)
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -36,10 +37,12 @@ class ArticleContentController extends React.Component {
   }
 
   prepareDataForView(data) {
+    console.log(data);
     this.setState({
       articleData: {
         username: data.author,
         caption: data.title,
+        content: data.content,
         date: {
           day: Date(data.date).split(' ')[2],
           month: Date(data.date).split(' ')[1],
@@ -54,7 +57,6 @@ class ArticleContentController extends React.Component {
   }
 
   render() {
-    console.log('I am here');
     return (
       <ArticleView articleData={this.state.articleData} />
     );

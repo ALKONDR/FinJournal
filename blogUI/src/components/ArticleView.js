@@ -1,26 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ArticleComments from './ArticleComments';
 
 class ArticleView extends React.Component {
-  componentWillReceiveProps() {
-    console.log('article data have to be rendered here');
-    console.log(this.props.articleData);
-  }
   render() {
+    const data = this.props.articleData;
     return (
       <div className="articleContainer">
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <h2 className="articleCaption">
-          {JSON.stringify(this.props.articleData)}
-        </h2>
+        <div className="articleAuthorHeader">
+          <img alt="author" className="authorAvatar" />
+          <div className="authorInfo">
+            <div className="usernameAndFollowButton">
+              <h3 className="articleAuthor">
+                {data.username}
+              </h3>
+              <button>
+                Follow
+              </button>
+            </div>
+            <p>
+              Account description
+            </p>
+            <div className="previewDateAndReadingTime">
+              <p className="previewDate">
+                {data.date.day} {data.date.month}
+              </p>
+              <p className="readingTime">
+                {data.readingTime} min read
+              </p>
+            </div>
+          </div>
+        </div>
+        <h1 className="articleCaption">
+          {data.caption}
+        </h1>
         <p className="articleDescription">
-          {'description'}
+          {data.description}
         </p>
+        <p className="articleContent">
+          {data.content}
+        </p>
+        <ArticleComments comments={data.comments} />
       </div>
     );
   }
@@ -30,8 +50,10 @@ ArticleView.propTypes = {
   articleData: PropTypes.shape({
     username: PropTypes.string.isRequired,
 
+    content: PropTypes.string.isRequired,
+
     date: PropTypes.shape({
-      day: PropTypes.number.isRequired,
+      day: PropTypes.string.isRequired,
       month: PropTypes.string.isRequired,
     }).isRequired,
 
