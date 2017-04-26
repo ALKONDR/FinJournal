@@ -16,6 +16,10 @@ module.exports = {
     return !!window.localStorage.getItem('username');
   },
 
+  get loggedInUser() {
+    return window.localStorage.getItem('username');
+  },
+
   getUsers() {
     return axios.get('/users');
   },
@@ -113,5 +117,9 @@ module.exports = {
 
   getArticlesByTag(tag) {
     return axios.get(`/tags/${tag}`);
+  },
+
+  postComment(username, caption, content) {
+    return axios.post(`/users/${username}/stories/${caption}/comments`, { content });
   },
 };

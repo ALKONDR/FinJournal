@@ -37,7 +37,6 @@ class ArticleContentController extends React.Component {
   }
 
   prepareDataForView(data) {
-    console.log(data);
     this.setState({
       articleData: {
         username: data.author,

@@ -40,7 +40,7 @@ class ArticleView extends React.Component {
         <p className="articleContent">
           {data.content}
         </p>
-        <ArticleComments comments={data.comments} />
+        <ArticleComments comments={data.comments} username={data.username} caption={data.caption} />
       </div>
     );
   }
