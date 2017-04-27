@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 import api from '../utils/api';
 import Preview from './Preview';
 import UserPage from './UserPage';
+import LoginState from './LoginState';
 
+@observer
 class UserPageController extends React.Component {
   constructor(props) {
     super(props);
@@ -62,7 +65,22 @@ class UserPageController extends React.Component {
   render() {
     return (
       <div className="userPageContainer">
-        <UserPage userInfo={this.state.userInfo} />
+        <UserPage userInfo={this.state.userInfo}>
+          {this.state.loggedInUser && LoginState.userLoggedIn ?
+            <div className="editAndWrite">
+              <button>
+                Edit
+              </button>
+              <button>
+                Write an article
+              </button>
+            </div>
+            :
+            <button>
+              Follow
+            </button>
+          }
+        </UserPage>
         <div className="content">
           {this.state.previews.map(preview => <Preview previewData={preview} />)}
         </div>

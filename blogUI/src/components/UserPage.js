@@ -1,12 +1,30 @@
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 
 class UserPage extends React.Component {
   render() {
+    const data = this.props.userInfo;
     return (
-      <div>
-        <img alt="avatar" className="userAvatar" />
-        {JSON.stringify(this.props.userInfo)}
+      <div className="userPageHeader">
+        <div className="userPageBasic">
+          <img alt="avatar" className="userAvatar" />
+          <div className="userPageInfo">
+            <h3>
+              {data.username}
+            </h3>
+            <p>
+              Following: {data.following} Followers: {data.followers}
+            </p>
+          </div>
+          <div className="userPageButtons">
+            {this.props.children}
+          </div>
+        </div>
+        <p>
+          {data.description}
+        </p>
       </div>
     );
   }
