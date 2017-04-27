@@ -1,17 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class NameAndLogo extends React.Component {
   render() {
     return (
-      <div className="nameAndLogo" >
-        <img alt="logo" className="logo" />
-      </div>
+      <Link to="/" >
+        <div className="nameAndLogo" >
+          <img alt="logo" className="logo" />
+        </div>
+      </Link>
     );
   }
 }
-
-// <h1 className="name">
-//           FinJournal
-//         </h1>
 
 module.exports = NameAndLogo;
