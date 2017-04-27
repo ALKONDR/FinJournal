@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import api from '../utils/api';
 import Preview from './Preview';
@@ -71,9 +72,11 @@ class UserPageController extends React.Component {
               <button>
                 Edit
               </button>
-              <button>
-                Write an article
-              </button>
+              <Link to="/write">
+                <button>
+                  Write an article
+                </button>
+              </Link>
             </div>
             :
             <button>

@@ -5,6 +5,7 @@ import LoginLayout from './LoginLayout';
 import Content from './Content';
 import ArticleContentController from './ArticleContentController';
 import UserPageController from './UserPageController';
+import WriteArticle from './WriteArticle';
 
 const Router = require('react-router-dom').BrowserRouter;
 const Route = require('react-router-dom').Route;
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route exact path="/topic/:topic" component={Content} />
             <Route exact path="/users/:username/:caption" component={ArticleContentController} />
             <Route exact path="/users/:username" component={UserPageController} />
+            <Route exact path="/write" component={WriteArticle} />
           </Switch>
         </div>
       </Router>
