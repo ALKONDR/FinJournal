@@ -76,7 +76,7 @@ module.exports = {
   },
 
   getUser(username) {
-    return axios.get(`/users${username}`);
+    return axios.get(`/users/${username}`);
   },
 
   getUserArticle(username, article) {
