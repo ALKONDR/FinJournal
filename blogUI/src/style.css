@@ -222,6 +222,7 @@ body {
 .previewImage {
   content: url(./icons/defaultArticle.png);
   width: 90%;
+  border-radius: 10px;
 }
 
 .previewFooter {
@@ -402,4 +403,8 @@ body {
   opacity: 0.8;
   margin-left: 7px;
   margin-right: 10px;
+}
+
+.userPageContainer {
+  padding-top: 100px;
 }
