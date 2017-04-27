@@ -2,36 +2,21 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 import Comment from './Comment';
 import api from '../utils/api';
 
-class _ {
-  @observable comments = [];
-}
-
-@observer
 class ArticleComments extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       commentValue: '',
-      // comments: props.comments,
     };
-
-    _.comments = this.props.comments;
 
     this.handleTextareaChange = this.handleTextareaChange.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.postComment = this.postComment.bind(this);
-    this.addCommentInState = this.addCommentInState.bind(this);
-  }
-
-  componentDidUpdate() {
-    _.comments = this.props.comments;
-    console.log(this.props.comments);
+    this.addCommentInProps = this.addCommentInProps.bind(this);
   }
 
   handleTextareaChange(event) {
@@ -49,9 +34,8 @@ class ArticleComments extends React.Component {
     }
   }
 
-  addCommentInState(comment) {
-    _.comments.push(comment);
-    console.log(this.state.commentValue);
+  addCommentInProps(comment) {
+    this.props.comments.push(comment);
   }
 
   postComment(content) {
@@ -105,7 +89,7 @@ class ArticleComments extends React.Component {
           onKeyUp={this.handleKeyUp}
         />
         <div className="commentsContainer">
-          {_.comments.map(comment => <Comment comment={comment} />)}
+          {this.props.comments.map(comment => <Comment comment={comment} />)}
         </div>
       </div>
     );

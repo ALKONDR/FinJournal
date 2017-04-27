@@ -1,10 +1,26 @@
+* { 
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.nameAndLogo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  content: url(./icons/nameAndLogo.png);
+  width: 194px;
+  height: 65.5px;
+}
+
 .header {
   width: 100%;
   height: 80px;
   position: fixed;
   top: 0px;
   left: 0px;
-  color: #ffd633;
+  color: black;
   text-shadow: 1px 1px 1px rgba(0,0,0,.15);
   box-shadow: 3px 2px 4px rgba(0,0,0,.15);
   padding-left: 15px;

@@ -1,4 +1,5 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 var path = require('path');
 
 module.exports = {
@@ -41,6 +42,7 @@ module.exports = {
       },
       hash: true,
       template: './src/index.ejs'
-    })
+    }),
+    new FaviconsWebpackPlugin('./src/icons/logo.png')
   ]
 }
