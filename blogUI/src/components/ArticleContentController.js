@@ -25,6 +25,7 @@ class ArticleContentController extends React.Component {
     };
 
     this.prepareDataForView = this.prepareDataForView.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +35,22 @@ class ArticleContentController extends React.Component {
           this.prepareDataForView(response.data);
         }
       });
+  }
+
+  onUpdate(key, data) {
+    switch (key) {
+      case 'comments':
+        this.setState({ comments: data });
+        break;
+      case 'likes':
+        this.setState({ likes: data });
+        break;
+      case 'dislikes':
+        this.setState({ dislikes: data });
+        break;
+      default:
+        break;
+    }
   }
 
   prepareDataForView(data) {
@@ -57,7 +74,7 @@ class ArticleContentController extends React.Component {
 
   render() {
     return (
-      <ArticleView articleData={this.state.articleData} />
+      <ArticleView articleData={this.state.articleData} onUpdate={this.onUpdate} />
     );
   }
 }

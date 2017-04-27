@@ -40,7 +40,12 @@ class ArticleView extends React.Component {
         <p className="articleContent">
           {data.content}
         </p>
-        <ArticleComments comments={data.comments} username={data.username} caption={data.caption} />
+        <ArticleComments
+          comments={data.comments}
+          username={data.username}
+          caption={data.caption}
+          onUpdate={this.props.onUpdate}
+        />
       </div>
     );
   }
@@ -65,6 +70,7 @@ ArticleView.propTypes = {
     dislikes: PropTypes.array.isRequired,
     comments: PropTypes.array.isRequired,
   }).isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 module.exports = ArticleView;

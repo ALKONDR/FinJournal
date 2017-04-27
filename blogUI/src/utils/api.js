@@ -120,6 +120,7 @@ module.exports = {
   },
 
   postComment(username, caption, content) {
+    this.setDefaults();
     return axios.post(`/users/${username}/stories/${caption}/comments`, { content });
   },
 };

@@ -27,7 +27,9 @@ class ArticleComments extends React.Component {
 
   handleKeyUp(event) {
     if (event.keyCode === 13) {
-      this.postComment(this.state.commentValue);
+      if (this.state.commentValue.trim().length > 0) {
+        this.postComment(this.state.commentValue.trim());
+      }
       this.setState({
         commentValue: '',
       });
@@ -36,13 +38,14 @@ class ArticleComments extends React.Component {
 
   addCommentInProps(comment) {
     this.props.comments.push(comment);
+    this.props.onUpdate('comments', this.props.comments);
   }
 
   postComment(content) {
     api.postComment(this.props.username, this.props.caption, content)
       .then((response) => {
-        if (response.state >= 200 && response.state < 300) {
-          this.addCommentInState({
+        if (response.status >= 200 && response.status < 300) {
+          this.addCommentInProps({
             author: api.loggedInUser,
             date: Date(),
             content,
@@ -57,8 +60,8 @@ class ArticleComments extends React.Component {
             if (refreshed) {
               api.postComment(this.props.username, this.props.caption, content)
                 .then((response) => {
-                  if (response.state >= 200 && response.state < 300) {
-                    this.addCommentInState({
+                  if (response.status >= 200 && response.status < 300) {
+                    this.addCommentInProps({
                       author: api.loggedInUser,
                       date: Date(),
                       content,
@@ -100,6 +103,7 @@ ArticleComments.propTypes = {
   comments: PropTypes.array.isRequired,
   username: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 module.exports = ArticleComments;
