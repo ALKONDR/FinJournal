@@ -20,7 +20,7 @@ class Header extends React.Component {
           <Search headerState={HeaderState} />
           {LoginState.userLoggedIn ?
             <Link to={`/users/${api.loggedInUser}`} >
-              <img alt="user" className="authorAvatar" />
+              <img alt="user" className="headerAvatar" />
             </Link> :
             null
           }

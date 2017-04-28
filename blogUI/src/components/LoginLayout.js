@@ -110,7 +110,7 @@ class LoginLayout extends React.Component {
           </div>
           <form className="loginForm">
             {!this.state.inLogIn ?
-              <label htmlFor="email">
+              <label className="logInLabels" htmlFor="email">
                 Email
               </label> :
               null
@@ -121,10 +121,11 @@ class LoginLayout extends React.Component {
                 placeholder="email"
                 value={this.state.email}
                 onChange={this.handleEmailChange}
+                className="logInInput"
               /> :
               null
             }
-            <label htmlFor="username">
+            <label className="logInLabels" htmlFor="username">
               Username
             </label>
             <input
@@ -132,8 +133,9 @@ class LoginLayout extends React.Component {
               placeholder="username"
               value={this.props.loginState.username}
               onChange={this.handleUsernameChange}
+              className="logInInput"
             />
-            <label htmlFor="password">
+            <label className="logInLabels" htmlFor="password">
               Password
             </label>
             <input
@@ -141,9 +143,10 @@ class LoginLayout extends React.Component {
               placeholder="password"
               value={this.props.loginState.password}
               onChange={this.handlePasswordChange}
+              className="logInInput"
             />
             {!this.state.inLogIn ?
-              <label htmlFor="repeatPassword">
+              <label className="logInLabels" htmlFor="repeatPassword">
                 Repeat password
               </label> :
               null
@@ -154,10 +157,11 @@ class LoginLayout extends React.Component {
                 placeholder="one more time"
                 value={this.state.repPassword}
                 onChange={this.handleRepPasswordChange}
+                className="logInInput"
               /> :
               null
             }
-            <button onClick={this.state.inLogIn ? this.login : this.signup}>
+            <button onClick={this.state.inLogIn ? this.login : this.signup} className="button submitButton">
               Submit
             </button>
           </form>

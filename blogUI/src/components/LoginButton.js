@@ -24,7 +24,7 @@ class LoginButton extends React.Component {
   render() {
     return (
       <button
-        className="loginButton"
+        className="button loginButton"
         onClick={this.props.loginState.userLoggedIn ? this.logout : this.showLoginLayout}
       >
         {this.props.loginState.userLoggedIn ? 'Logout' : 'Login/Signup'}

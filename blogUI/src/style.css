@@ -73,10 +73,19 @@ body {
   align-items: center;
 }
 
+.headerAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  content: url(./icons/defaultUser.png);
+  margin-right: 20px;
+}
+
 .loginButton {
   position: relative;
   right: 10px;
   margin: 15px;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -85,6 +94,7 @@ body {
   right: 10px;
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .loginLayoutWithBackground {
@@ -116,6 +126,39 @@ body {
   margin-left: -350px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loginNavContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  top: 0;
+}
+
+.logIn, .signUp {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.logIn:hover, .signUp:hover {
+  background: rgba(255,255, 160, 0.5);
+}
+
+.logInActive, .signUpActive {
+  background: yellow;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .loginForm {
@@ -123,6 +166,38 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+}
+
+.logInLabels {
+  font-size: 1.7em;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.logInInput {
+  width: 40%;
+  height: 25px;
+  margin-bottom: 10px;
+}
+
+.button {
+  background: yellow;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .25), inset 0 2px 0 rgba(255, 255, 255, .6);
+}
+
+.button:focus {
+  outline: 0;
+  box-shadow: inset 0 0 5px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4);
+}
+
+.submitButton {
+  width: 40%;
+  height: 50px;
+  font-size: 1.2em;
 }
 
 .content {
