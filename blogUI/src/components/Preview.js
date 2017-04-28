@@ -42,7 +42,7 @@ class Preview extends React.Component {
         }
       })
       .catch(() => {
-        api.refresh()
+        api.refreshToken()
           .then((refreshed) => {
             if (refreshed) {
               api.likeArticle(dataForLike.username, dataForLike.caption, api.loggedInUser)
@@ -86,7 +86,7 @@ class Preview extends React.Component {
         }
       })
       .catch(() => {
-        api.refresh()
+        api.refreshToken()
           .then((refreshed) => {
             if (refreshed) {
               api.dislikeArticle(dataForDislike.username, dataForDislike.caption, api.loggedInUser)

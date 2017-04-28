@@ -133,4 +133,24 @@ module.exports = {
     this.setDefaults();
     return axios.post(`/users/${username}/stories/${caption}/dislike/${author}`);
   },
+
+  deleteLikeArticle(username, caption, author) {
+    this.setDefaults();
+    return axios.delete(`/users/${username}/stories/${caption}/like/${author}`);
+  },
+
+  deleteDislikeArticle(username, caption, author) {
+    this.setDefaults();
+    return axios.delete(`/users/${username}/stories/${caption}/dislike/${author}`);
+  },
+
+  follow(follower, following) {
+    this.setDefaults();
+    return axios.post(`/users/${follower}/follow/${following}`);
+  },
+
+  unfollow(follower, following) {
+    this.setDefaults();
+    return axios.delete(`/users/${follower}/unfollow/${following}`);
+  },
 };

@@ -69,7 +69,7 @@ class WriteArticle extends React.Component {
           }
         })
         .catch(() => {
-          api.refresh()
+          api.refreshToken()
             .then((refreshed) => {
               if (refreshed) {
                 api.addArticle(api.loggedInUser, story)
