@@ -88,6 +88,8 @@ class Content extends React.Component {
             likes: element.likes.length,
             dislikes: element.dislikes.length,
             comments: element.comments.length,
+            liked: element.likes.some(like => like.author === api.loggedInUser),
+            disliked: element.dislikes.some(dislike => dislike.author === api.loggedInUser),
           };
 
           return preview;

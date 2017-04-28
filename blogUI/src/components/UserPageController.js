@@ -56,6 +56,8 @@ class UserPageController extends React.Component {
           likes: element.likes.length,
           dislikes: element.dislikes.length,
           comments: element.comments.length,
+          liked: element.likes.some(like => like.author === api.loggedInUser),
+          disliked: element.dislikes.some(dislike => dislike.author === api.loggedInUser),
         };
 
         return preview;
@@ -84,7 +86,7 @@ class UserPageController extends React.Component {
             </button>
           }
         </UserPage>
-        <div className="content">
+        <div className="userPageContent">
           {this.state.previews.map(preview => <Preview previewData={preview} />)}
         </div>
       </div>

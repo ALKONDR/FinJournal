@@ -123,4 +123,14 @@ module.exports = {
     this.setDefaults();
     return axios.post(`/users/${username}/stories/${caption}/comments`, { content });
   },
+
+  likeArticle(username, caption, author) {
+    this.setDefaults();
+    return axios.post(`/users/${username}/stories/${caption}/like/${author}`);
+  },
+
+  dislikeArticle(username, caption, author) {
+    this.setDefaults();
+    return axios.post(`/users/${username}/stories/${caption}/dislike/${author}`);
+  },
 };

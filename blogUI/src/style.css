@@ -241,15 +241,23 @@ body {
   cursor: pointer;
 }
 
+.likedImg, .dislikedImg {
+  height: 30px;
+  width: 30px;
+  padding-left: 7px;
+  opacity: 1;
+  cursor: pointer;
+}
+
 .likeImg:hover, .dislikeImg:hover, .commentsImg:hover {
   opacity: 1;
 }
 
-.likeImg {
+.likeImg, .likedImg {
   content: url(./icons/like.png);
 }
 
-.dislikeImg {
+.dislikeImg, .dislikedImg {
   content: url(./icons/dislike.png);
 }
 
@@ -434,4 +442,19 @@ body {
 .userPageButtons {
   position: absolute;
   right: 10px;
+}
+
+.userPageContent {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 700px;
+  margin: 100px auto;
+}
+
+.writeArticleContainer {
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
