@@ -101,7 +101,7 @@ class Content extends React.Component {
   render() {
     return (
       <div className="content">
-        <Nav />
+        <Nav current={this.props.match.params.topic} />
         { this.state.previews.length > 0 ?
             this.state.previews.map(preview => <Preview previewData={preview} />) :
             <div>No content</div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ArticleComments from './ArticleComments';
 
 class ArticleView extends React.Component {
@@ -12,9 +13,11 @@ class ArticleView extends React.Component {
           <div className="authorInfo">
             <div className="usernameAndFollowButton">
               <h3 className="articleAuthor">
-                {data.username}
+                <Link to={`/users/${data.username}`} >
+                  {data.username}
+                </Link>
               </h3>
-              <button>
+              <button className="button followButton">
                 Follow
               </button>
             </div>

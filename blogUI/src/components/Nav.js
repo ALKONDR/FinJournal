@@ -1,5 +1,8 @@
+/* eslint-disable prefer-template */
+
 import { observer } from 'mobx-react';
 import React from 'react';
+import PropTypes from 'prop-types';
 import api from '../utils/api';
 import LoginState from './LoginState';
 
@@ -24,13 +27,13 @@ class Nav extends React.Component {
       this.state.popularTopics.splice(0, 1);
     }
 
+    const currentTopic = this.props.current || 'popular';
     return (
       <ul className="nav">
         {this.state.popularTopics.map(topic => (
-          <li key={topic} className="navEl">
+          <li key={topic} className={'navEl' + (currentTopic === topic ? ' activeNavLink' : '')}>
             <NavLink
               exact
-              activeClassName="activeNavLink"
               to={topic === 'popular' ? '/' : `/topic/${topic}`}
             >
               {topic}
@@ -42,5 +45,9 @@ class Nav extends React.Component {
     );
   }
 }
+
+Nav.propTypes = {
+  current: PropTypes.string.isRequired,
+};
 
 module.exports = Nav;
