@@ -10,10 +10,22 @@ class LoginLayout extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      inLogIn: true,
+      email: '',
+      repPassword: '',
+    };
+
     this.hideLoginLayout = this.hideLoginLayout.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleRepPasswordChange = this.handleRepPasswordChange.bind(this);
+    this.inLogIn = this.inLogIn.bind(this);
+    this.inSignUp = this.inSignUp.bind(this);
     this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
+    this.setState = this.setState.bind(this);
   }
 
   hideLoginLayout() {
@@ -26,9 +38,26 @@ class LoginLayout extends React.Component {
     api.login(this.props.loginState.username, this.props.loginState.password)
       .then((userLoggedIn) => {
         this.props.loginState.userLoggedIn = userLoggedIn;
+        this.props.loginState.username = '';
+        this.props.loginState.password = '';
         this.hideLoginLayout();
       })
       .catch((error) => { console.log('bad request :( ', error); });
+  }
+
+  signup(event) {
+    event.preventDefault();
+
+    api.signup(this.state.email, this.props.loginState.username, this.props.loginState.password)
+      .then((signuped) => {
+        if (signuped) {
+          this.setState({
+            inLogIn: true,
+            email: '',
+            repPassword: '',
+          });
+        }
+      });
   }
 
   handleUsernameChange(event) {
@@ -39,6 +68,30 @@ class LoginLayout extends React.Component {
     this.props.loginState.password = event.target.value;
   }
 
+  handleEmailChange(event) {
+    this.setState({
+      email: event.target.value,
+    });
+  }
+
+  handleRepPasswordChange(event) {
+    this.setState({
+      repPassword: event.target.value,
+    });
+  }
+
+  inLogIn() {
+    this.setState({
+      inLogIn: true,
+    });
+  }
+
+  inSignUp() {
+    this.setState({
+      inLogIn: false,
+    });
+  }
+
   render() {
     return (
       <div
@@ -47,7 +100,30 @@ class LoginLayout extends React.Component {
       >
         <div role="button" className="darkBackground" onClick={this.hideLoginLayout} />
         <div className="loginLayout">
+          <div className="loginNavContainer">
+            <div className={this.state.inLogIn ? 'logInActive' : 'logIn'} onClick={this.inLogIn} >
+              LogIn
+            </div>
+            <div className={this.state.inLogIn ? 'signUp' : 'signUpActive'} onClick={this.inSignUp} >
+              SignUp
+            </div>
+          </div>
           <form className="loginForm">
+            {!this.state.inLogIn ?
+              <label htmlFor="email">
+                Email
+              </label> :
+              null
+            }
+            {!this.state.inLogIn ?
+              <input
+                type="text"
+                placeholder="email"
+                value={this.state.email}
+                onChange={this.handleEmailChange}
+              /> :
+              null
+            }
             <label htmlFor="username">
               Username
             </label>
@@ -66,7 +142,22 @@ class LoginLayout extends React.Component {
               value={this.props.loginState.password}
               onChange={this.handlePasswordChange}
             />
-            <button onClick={this.login}>
+            {!this.state.inLogIn ?
+              <label htmlFor="repeatPassword">
+                Repeat password
+              </label> :
+              null
+            }
+            {!this.state.inLogIn ?
+              <input
+                type="password"
+                placeholder="one more time"
+                value={this.state.repPassword}
+                onChange={this.handleRepPasswordChange}
+              /> :
+              null
+            }
+            <button onClick={this.state.inLogIn ? this.login : this.signup}>
               Submit
             </button>
           </form>
