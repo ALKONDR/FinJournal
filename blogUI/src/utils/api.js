@@ -103,8 +103,8 @@ module.exports = {
       readingTime: 3,
       caption: 'Some Caption',
       description: 'Description of the article',
-      likes: 1488,
-      dislikes: 228,
+      likes: 14,
+      dislikes: 22,
       comments: 42,
     };
     return [demoPreview, demoPreview, demoPreview, demoPreview];
