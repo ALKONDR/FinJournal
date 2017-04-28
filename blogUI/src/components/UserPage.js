@@ -11,10 +11,10 @@ class UserPage extends React.Component {
         <div className="userPageBasic">
           <img alt="avatar" className="userAvatar" />
           <div className="userPageInfo">
-            <h3>
+            <h3 className="userPageUser">
               {data.username}
             </h3>
-            <p>
+            <p className="userPageFol">
               Following: {data.following} Followers: {data.followers}
             </p>
           </div>

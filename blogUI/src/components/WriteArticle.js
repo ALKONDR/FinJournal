@@ -49,7 +49,7 @@ class WriteArticle extends React.Component {
     const story = {
       title: this.state.title.trim(),
       description: this.state.description.trim(),
-      content: this.state.description.trim(),
+      content: this.state.content.trim(),
       author: api.loggedInUser,
     };
 
@@ -119,7 +119,7 @@ class WriteArticle extends React.Component {
           className="articleArea"
           onChange={this.handleContentChange}
         />
-        <button onClick={this.publish}>
+        <button className="button publishButton" onClick={this.publish}>
           Publish
         </button>
       </div>

@@ -176,17 +176,20 @@ class UserPageController extends React.Component {
         <UserPage userInfo={this.state.userInfo}>
           {this.state.loggedInUser && LoginState.userLoggedIn ?
             <div className="editAndWrite">
-              <button>
+              <button className="button bUserPage">
                 Edit
               </button>
               <Link to="/write">
-                <button>
+                <button className="button bUserPage">
                   Write an article
                 </button>
               </Link>
             </div>
             :
-            <button onClick={this.state.userInfo.alreadyFollowing ? this.unfollow : this.follow} >
+            <button
+              className="button bUserPage"
+              onClick={this.state.userInfo.alreadyFollowing ? this.unfollow : this.follow}
+            >
               {this.state.userInfo.alreadyFollowing ? 'Unfollow' : 'Follow'}
             </button>
           }
